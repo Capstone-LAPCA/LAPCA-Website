@@ -51,7 +51,7 @@ export default function MainPage(){
             </div>
 
             <div className="right-container">
-                <h1>Guidelines</h1>
+                <h1>Guidelines Checklist</h1>
                 <label>
                     <input type='checkbox'/>Check if all variables are less than 31 characters
                     <br/>
