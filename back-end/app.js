@@ -10,7 +10,8 @@ app.get('/',(req,res)=>{
 app.post('/',(req,res)=>{
     const {code,form}=req.body
     console.log(code,form)
-    return res.json({code})
+        
+    return res.json({code:code,form:form})
 })
 
 
