@@ -1,6 +1,7 @@
 import './Main.css';
 import Editor from 'react-simple-code-editor';
-import React from 'react';
+// import React, { useEffect } from 'react';
+import { useState } from 'react';
 import { highlight, languages } from 'prismjs/components/prism-core';
 import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-javascript';
@@ -12,34 +13,90 @@ import 'prismjs/plugins/line-numbers/prism-line-numbers.css'
 const codeSnippet = 
 `def function add(a, b):
     return a + b
-
+ 
 add(5,10);
   
-  
-  
   `
+
+
 const hightlightWithLineNumbers = (input, language) =>
   highlight(input, language)
     .split("\n")
     .map((line, i) => `<span class='editorLineNumber'>${i + 1}</span>${line}`)
     .join("\n");
 
+const Checkbox = ({label,id,handleChange,form})=>(
+    <>
+    <input
+    type="checkbox"
+    id={id}
+    name={id}   
+    value={id}
+    onChange={handleChange}
+    checked={form[id]}
+    />
+    <label htmlFor={id}>{label}</label>
+    <br/>
+    </>
+)
+
 export default function MainPage(){
-    const [code, setCode] = React.useState(
-        codeSnippet
-      );
+    const [code, setCode] = useState(codeSnippet);
+    const [violation,setViolation]=useState("Submit")
+    const [form,setFormValue]=useState({
+        a:false,
+        b:false
+    })
+    const handleChange = (e) =>{
+        const {name,value,type,checked}=e.target;
+        setFormValue((prevFormaValue)=>({
+            ...prevFormaValue,
+            [name]: type==='checkbox' ? checked : value
+        }))
+    }
+
+    const Post= ()=>{
+        console.log(form['code'],form['a'],form['b'])
+        fetch("/",{
+            method:"post",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({
+                code,
+                form
+        })
+    }).then(res=>res.json())
+    .then(result=>{
+        const f=JSON.stringify(result.code)
+        setViolation(f)
+        console.log(f)
+    }).catch(err=>{
+        console.log(err)
+    })
+    }
 
     return(
+        <>
+        <div className='navbar'>
+            Navbar
+        </div>
         <div className="main-page-container">
-            <div className="left-container" >
+            
+            <div className="child" >
+                    
                     <h1>Code</h1>
                     <Editor
                         value={code}
-                        class = 'line-numbers'
+                        id={code}
+                        name={code}
+                        className= 'line-numbers'
                         highlight={code => hightlightWithLineNumbers(code, languages.js)}
                         padding={10}
                         textareaId="codeArea"
-                        className="editor"
+                        // className="editor"
+                        maxLength={500}
+                        minLength={100}
                         onValueChange={code => setCode(code)}
                         style={{
                             fontFamily: '"Fira code", "Fira Mono", monospace',
@@ -47,22 +104,19 @@ export default function MainPage(){
                             outline: 0
                         }}
                     />
-                
             </div>
 
-            <div className="right-container">
+            <div className="child">
+                <form>
                 <h1>Guidelines Checklist</h1>
-                <label>
-                    <input type='checkbox'/>Check if all variables are less than 31 characters
-                    <br/>
-                    <input type='checkbox'/>Check if all variables are less than 31 characters
-                    <br/>
-                    <input type='checkbox'/>Check if all variables are less than 31 characters
-                    <br/>
-                    <input type='checkbox'/>Check if all variables are less than 31 characters
-                </label>
-
+                <Checkbox form={form} label="a" id="a" handleChange={handleChange}/>
+                <Checkbox form={form} label="b" id="b" handleChange={handleChange}/>
+                <button onClick={()=>Post()}>Submit</button>
+                {<p>{violation}</p>}
+                </form>
             </div>
+            
         </div>
+        </>
     );
 }
