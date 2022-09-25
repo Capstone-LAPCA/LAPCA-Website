@@ -47,6 +47,9 @@ export default function MainPage(){
         "Assign in loop":false,
         "Dead code":false
     })
+    const [language,setLanguage]=useState("Python")
+
+
     const handleChange = (e) =>{
         const {name,value,type,checked}=e.target;
         setFormValue((prevFormaValue)=>({
@@ -55,8 +58,9 @@ export default function MainPage(){
         }))
     }
 
+
+
     const Post= ()=>{
-        console.log(form['code'],form['a'],form['b'])
         fetch("/",{
             method:"post",
             headers:{
@@ -64,17 +68,19 @@ export default function MainPage(){
             },
             body:JSON.stringify({
                 code,
-                form
+                form,
+                language
         })
     }).then(res=>res.json())
     .then(result=>{
-        const f=JSON.stringify(result.code)
+        const f=JSON.stringify(result.language)
         setViolation(f)
-        console.log(f)
     }).catch(err=>{
         console.log(err)
     })
     }
+
+    
 
     return(
         <>
@@ -84,7 +90,11 @@ export default function MainPage(){
         <div className="main-page-container">
             
             <div className="child" >
-                    
+                    <select value={language} onChange={e=>setLanguage(e.target.value)}>
+                        <option selected id="Python" name="Python" value="Python">Python</option>
+                        <option id="C" name="C" value="C">C</option>
+                        <option  id="Java" name="Java" value="Java">Java</option>
+                    </select>
                     <h1>Code</h1>
                     <Editor
                         value={code}
@@ -97,6 +107,7 @@ export default function MainPage(){
                         class="editor"  
                         maxLength={500}
                         minLength={100}
+                        
                         onValueChange={code => setCode(code)}
                         style={{
                             fontFamily: '"Fira code", "Fira Mono", monospace',
