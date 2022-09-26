@@ -11,12 +11,12 @@ import 'prismjs/plugins/line-numbers/prism-line-numbers.js'
 import 'prismjs/plugins/line-numbers/prism-line-numbers.css'
 
 const codeSnippet = 
-`def function add(a, b):
+`def  add(a, b):
     return a + b
- 
+    a=10
+    
 add(5,10);
-  
-  `
+`
 
 
 const hightlightWithLineNumbers = (input, language) =>
@@ -73,8 +73,9 @@ export default function MainPage(){
         })
     }).then(res=>res.json())
     .then(result=>{
-        const f=JSON.stringify(result.language)
-        setViolation(f)
+        console.log(result.data)
+        // const f=JSON.stringify(result.result[])
+        setViolation(JSON.stringify(result))
     }).catch(err=>{
         console.log(err)
     })
