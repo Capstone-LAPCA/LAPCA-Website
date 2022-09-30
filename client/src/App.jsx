@@ -32,9 +32,9 @@ function App() {
     '//DO NOT CHANGE THE BELOW CLASS NAME\npublic class TestProgram{\n\tpublic static void main(String[] args){\n\t\tSystem.out.println("Hello World");\n\t}\n}';
 
   const editorRef = useRef(null);
-  const [defaultLanguage, setDefaultLanguage] = useState("python");
-  const [defaultCodeTemplate, setDefaultCodeTemplate] =
-    useState(python_default_code);
+  const [defaultLanguage, setDefaultLanguage] = useState("Python");
+  const [defaultCodeTemplate, setDefaultCodeTemplate] = useState(python_default_code);
+  const [violation,setViolation]=useState()
 
   function handleEditorChange(value, event) {
     // here is the current value
@@ -50,13 +50,14 @@ function App() {
   function sendCode() {
     const code = editorRef.current.getValue();
     axios
-      .post("http://localhost:5000/lapcarun", {
+      .post("http://localhost:5000/", {
         code: code,
         language: defaultLanguage,
         form: formResult,
       })
       .then((res) => {
         console.log(res.data);
+        setViolation(res.data)
       })
       .catch((err) => {
         console.log("ERRRORRR");
@@ -66,14 +67,18 @@ function App() {
 
   function handleLanguageChange(event) {
     setDefaultLanguage(event.target.value);
-    if (event.target.value === "python") {
-      setDefaultCodeTemplate(python_default_code);
-    }
-    if (event.target.value === "c") {
-      setDefaultCodeTemplate(c_default_code);
-    }
-    if (event.target.value === "java") {
-      setDefaultCodeTemplate(java_default_code);
+    switch (event.target.value) {
+      case "Python":
+        setDefaultCodeTemplate(python_default_code);
+        break;
+      case "C":
+        setDefaultCodeTemplate(c_default_code);
+        break;
+      case "Java":
+        setDefaultCodeTemplate(java_default_code);
+        break;
+      default:
+        setDefaultCodeTemplate(python_default_code);
     }
   }
 
@@ -83,7 +88,8 @@ function App() {
   }
 
   return (
-    <div style={{ backgroundColor: "" }}>
+    //<div style={{ backgroundColor: "#383434" }}>
+    <div>
       <FormControl
         sx={{
           marginBottom: "60px",
@@ -100,9 +106,9 @@ function App() {
           value={defaultLanguage}
           onChange={handleLanguageChange}
         >
-          <MenuItem value={"c"}>C</MenuItem>
-          <MenuItem value={"python"}>Python</MenuItem>
-          <MenuItem value={"java"}>Java</MenuItem>
+          <MenuItem value={"C"}>C</MenuItem>
+          <MenuItem value={"Python"}>Python</MenuItem>
+          <MenuItem value={"Java"}>Java</MenuItem>
         </Select>
       </FormControl>
       <Grid container spacing={6} direction="row">
@@ -233,7 +239,7 @@ function App() {
                 }}
               >
                 <h2 style={{ textAlign: "center" }}>Output</h2>
-                <p id="outputArea"></p>
+                <p id="outputArea">{violation}</p>
               </Paper>
             </Grid>
           </Grid>
