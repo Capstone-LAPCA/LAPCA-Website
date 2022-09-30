@@ -1,6 +1,6 @@
 import "./App.css";
 import Editor from "@monaco-editor/react";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import axios from "axios";
 import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
@@ -11,11 +11,20 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 
 function App() {
+  const formResult = {
+    "Recursion.lapx": false,
+    "Assign_in_loop.lapx": false,
+    "Continue.lapx": false,
+    "Unused_Functions.lapx": false,
+    "One_var_decl.lapx": false,
+    "Binary_Search_Iterative.lapx": false,
+    "Dead_Code.lapx": false,
+    "var_greater_than_31.lapx": false,
+  };
   const python_default_code = "#Python code";
   const c_default_code =
     '#incude <stdio.h>\nint main(){\n\tprintf("Hello World");\n\treturn 0;\n}';
@@ -29,6 +38,7 @@ function App() {
 
   function handleEditorChange(value, event) {
     // here is the current value
+    console.log(value);
   }
 
   function handleEditorDidMount(editor, monaco) {
@@ -37,20 +47,20 @@ function App() {
     editorRef.current = editor;
   }
 
-  function handleEditorWillMount(monaco) {
-    console.log("beforeMount: the monaco instance:", monaco);
-  }
-
   function sendCode() {
     const code = editorRef.current.getValue();
-    console.log(code);
     axios
       .post("http://localhost:5000/lapcarun", {
         code: code,
         language: defaultLanguage,
+        form: formResult,
       })
       .then((res) => {
         console.log(res.data);
+      })
+      .catch((err) => {
+        console.log("ERRRORRR");
+        console.log(err);
       });
   }
 
@@ -65,6 +75,11 @@ function App() {
     if (event.target.value === "java") {
       setDefaultCodeTemplate(java_default_code);
     }
+  }
+
+  function handleFormChange(event) {
+    formResult[event.target.id] = event.target.checked;
+    console.log(formResult);
   }
 
   return (
@@ -92,8 +107,8 @@ function App() {
       </FormControl>
       <Grid container spacing={6} direction="row">
         <Grid xs={6}>
-          <Grid direction="column" alignItems="center">
-            <Grid xs={12}>
+          <Grid container direction="column">
+            <Grid>
               <Paper
                 elevation={12}
                 sx={{ marginLeft: "70px", marginRight: "20px" }}
@@ -106,7 +121,6 @@ function App() {
                   theme="vs-dark"
                   onChange={handleEditorChange}
                   onMount={handleEditorDidMount}
-                  beforeMount={handleEditorWillMount}
                 />
               </Paper>
             </Grid>
@@ -120,7 +134,7 @@ function App() {
           </Grid>
         </Grid>
         <Grid xs={6}>
-          <Grid direction="column">
+          <Grid>
             <Grid>
               <Paper
                 elevation={8}
@@ -133,30 +147,76 @@ function App() {
               >
                 <h2>Guidelines</h2>
                 <FormGroup sx={{ alignContent: "center" }}>
-                  <FormControlLabel control={<Checkbox />} label="Recursion" />
                   <FormControlLabel
-                    control={<Checkbox />}
+                    control={
+                      <Checkbox
+                        onChange={handleFormChange}
+                        id="Recursion.lapx"
+                      />
+                    }
+                    label="Recursion"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        id="var_greater_than_31.lapx"
+                        onChange={handleFormChange}
+                      />
+                    }
                     label="Variable greater than 31"
                   />
-                  <FormControlLabel control={<Checkbox />} label="Dead Code" />
                   <FormControlLabel
-                    control={<Checkbox />}
+                    control={
+                      <Checkbox
+                        id="Dead_Code.lapx"
+                        onChange={handleFormChange}
+                      />
+                    }
+                    label="Dead Code"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        id="Assign_in_loop.lapx"
+                        onChange={handleFormChange}
+                      />
+                    }
                     label="Assignment in Loop"
                   />
                   <FormControlLabel
-                    control={<Checkbox />}
-                    label="Binary Search"
+                    control={
+                      <Checkbox
+                        id="Binary_Search_Iterative.lapx"
+                        onChange={handleFormChange}
+                      />
+                    }
+                    label="Binary Search iterative"
                   />
                   <FormControlLabel
-                    control={<Checkbox />}
+                    control={
+                      <Checkbox
+                        id="Continue.lapx"
+                        onChange={handleFormChange}
+                      />
+                    }
                     label="Continue statement"
                   />
                   <FormControlLabel
-                    control={<Checkbox />}
+                    control={
+                      <Checkbox
+                        id="Unused_Functions.lapx"
+                        onChange={handleFormChange}
+                      />
+                    }
                     label="Unused Functions"
                   />
                   <FormControlLabel
-                    control={<Checkbox />}
+                    control={
+                      <Checkbox
+                        id="One_var_decl.lapx"
+                        onChange={handleFormChange}
+                      />
+                    }
                     label="One variable declaration per line"
                   />
                 </FormGroup>
