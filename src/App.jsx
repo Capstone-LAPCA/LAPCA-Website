@@ -50,7 +50,7 @@ function App() {
   function sendCode() {
     const code = editorRef.current.getValue();
     axios
-      .post("http://localhost:5000/", {
+      .post("https://lapca.herokuapp.com//getResults", {
         code: code,
         language: defaultLanguage,
         form: formResult,
