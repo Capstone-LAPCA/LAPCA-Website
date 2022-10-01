@@ -121,9 +121,10 @@ function App() {
               >
                 <Editor
                   height="75vh"
-                  defaultLanguage={defaultLanguage}
+                  defaultLanguage={defaultLanguage.toLowerCase()}
                   defaultValue={python_default_code}
                   value={defaultCodeTemplate}
+                  language={defaultLanguage.toLowerCase()}
                   theme="vs-dark"
                   onChange={handleEditorChange}
                   onMount={handleEditorDidMount}
