@@ -27,7 +27,7 @@ function App() {
   };
   const python_default_code = "#Python code";
   const c_default_code =
-    '#incude <stdio.h>\nint main(){\n\tprintf("Hello World");\n\treturn 0;\n}';
+    '#include <stdio.h>\nint main(){\n\tprintf("Hello World");\n\treturn 0;\n}';
   const java_default_code =
     '//DO NOT CHANGE THE BELOW CLASS NAME\npublic class TestProgram{\n\tpublic static void main(String[] args){\n\t\tSystem.out.println("Hello World");\n\t}\n}';
 
