@@ -240,7 +240,9 @@ function App() {
                 }}
               >
                 <h2 style={{ textAlign: "center" }}>Output</h2>
-                <p id="outputArea">{violation}</p>
+                <div style={{ whiteSpace:"pre-line" }}>
+                <p >{violation}</p>
+                </div>
               </Paper>
             </Grid>
           </Grid>
