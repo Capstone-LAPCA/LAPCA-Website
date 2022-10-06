@@ -15,7 +15,7 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 
 function App() {
-  const formResult = {
+  const [formResult, setFormResult] = useState({
     "Recursion.lapx": false,
     "Assign_in_loop.lapx": false,
     "Continue.lapx": false,
@@ -24,7 +24,7 @@ function App() {
     "Binary_Search_Iterative.lapx": false,
     "Dead_Code.lapx": false,
     "var_greater_than_31.lapx": false,
-  };
+  });
   const python_default_code = `print("Hello World")`;
   const c_default_code =
     `#include <stdio.h>\nint main(){\n\tprintf("Hello World");\n\treturn 0;\n}`;
@@ -72,7 +72,9 @@ function App() {
   }
 
   function handleFormChange(event) {
-    formResult[event.target.id] = event.target.checked;
+    var newFormResult = formResult;
+    newFormResult[event.target.id] = event.target.checked;
+    setFormResult(newFormResult);
     console.log(formResult);
   }
 
@@ -115,7 +117,7 @@ function App() {
                   value={defaultCodeTemplate}
                   language={defaultLanguage.toLowerCase()}
                   theme="vs-dark"
-                  onMount={(editor) => {editorRef.current = editor;}}
+                  onMount={(editor)=>{ editorRef.current = editor;}}
                 />
               </Paper>
             </Grid>
