@@ -49,8 +49,7 @@ function App() {
         setViolation(res.data)
       })
       .catch((err) => {
-        console.log("ERRRORRR");
-        console.log(err);
+        console.log("Error",err);
       });
   }
 
@@ -72,7 +71,7 @@ function App() {
   }
 
   function handleFormChange(event) {
-    var newFormResult = formResult;
+    let newFormResult = formResult;
     newFormResult[event.target.id] = event.target.checked;
     setFormResult(newFormResult);
     console.log(formResult);
