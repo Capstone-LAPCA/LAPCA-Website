@@ -26,6 +26,17 @@ function App() {
     },
   });
 
+  const themeDark = createTheme({
+    palette: {
+      background: {
+        paper: "#050c1b",
+      },
+      text: {
+        primary: "white"
+      }
+    }
+  });
+
   const [formResult, setFormResult] = useState({
     "Recursion.lapx": false,
     "Assign_in_loop.lapx": false,
@@ -105,21 +116,23 @@ function App() {
               marginTop: "20px",
               minHeight: 10,
               minWidth: 80,
-              
+              background: '#1d2432'
             }}
           >
+        <ThemeProvider theme={themeDark}>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               label="Language"
               value={defaultLanguage}
               onChange={handleLanguageChange}
-              
+
             >
               <MenuItem value={"C"}>C</MenuItem>
               <MenuItem value={"Python"}>Python</MenuItem>
               <MenuItem value={"Java"}>Java</MenuItem>
             </Select>
+            </ThemeProvider>
           </FormControl>
 
           {/* <EditorComponent/> */}
@@ -166,6 +179,7 @@ function App() {
                       control={
                         <Checkbox
                           onChange={handleFormChange}
+                          sx={{color: 'aliceblue'}}
                           id="Recursion.lapx"
                         />
                       }
@@ -175,6 +189,7 @@ function App() {
                       control={
                         <Checkbox
                           id="var_greater_than_31.lapx"
+                          sx={{color: 'aliceblue'}}
                           onChange={handleFormChange}
                         />
                       }
@@ -184,6 +199,7 @@ function App() {
                       control={
                         <Checkbox
                           id="Dead_Code.lapx"
+                          sx={{color: 'aliceblue'}}
                           onChange={handleFormChange}
                         />
                       }
@@ -193,6 +209,7 @@ function App() {
                       control={
                         <Checkbox
                           id="Assign_in_loop.lapx"
+                          sx={{color: 'aliceblue'}}
                           onChange={handleFormChange}
                         />
                       }
@@ -202,6 +219,7 @@ function App() {
                       control={
                         <Checkbox
                           id="Binary_Search_Iterative.lapx"
+                          sx={{color: 'aliceblue'}}
                           onChange={handleFormChange}
                         />
                       }
@@ -211,6 +229,7 @@ function App() {
                       control={
                         <Checkbox
                           id="Continue.lapx"
+                          sx={{color: 'aliceblue'}}
                           onChange={handleFormChange}
                         />
                       }
@@ -220,6 +239,7 @@ function App() {
                       control={
                         <Checkbox
                           id="Unused_Functions.lapx"
+                          sx={{color: 'aliceblue'}}
                           onChange={handleFormChange}
                         />
                       }
@@ -229,6 +249,7 @@ function App() {
                       control={
                         <Checkbox
                           id="One_var_decl.lapx"
+                          sx={{color: 'aliceblue'}}
                           onChange={handleFormChange}
                         />
                       }
