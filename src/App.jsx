@@ -11,10 +11,21 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
+import "./scrollbar.css"
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { fontSize } from "@mui/system";
 
 function App() {
+  const theme = createTheme({
+    palette: {
+      primary: {
+        // This is green.A700 as hex.
+        main: '#11cb5f',
+      },
+    },
+  });
+
   const [formResult, setFormResult] = useState({
     "Recursion.lapx": false,
     "Assign_in_loop.lapx": false,
@@ -81,163 +92,173 @@ function App() {
   return (
     //<div style={{ backgroundColor: "#383434" }}>
     <div>
-      <FormControl
-        sx={{
-          marginBottom: "60px",
-          marginTop: "20px",
-          marginLeft: "20px",
-          minWidth: 120,
-        }}
-      >
-        <InputLabel id="demo-simple-select-label">Language</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          label="Language"
-          value={defaultLanguage}
-          onChange={handleLanguageChange}
-        >
-          <MenuItem value={"C"}>C</MenuItem>
-          <MenuItem value={"Python"}>Python</MenuItem>
-          <MenuItem value={"Java"}>Java</MenuItem>
-        </Select>
-      </FormControl>
-      <Grid container spacing={6} direction="row">
-        <Grid xs={6}>
-          <Grid container direction="column">
-            <Grid>
+      <div className="navbar">
+        <p>LAPCA</p>
+      </div>
+      <div className="main-body">
+        
+        <div className="left-section">
+          
+        <FormControl
+            sx={{
+              marginBottom: "10px",
+              marginTop: "20px",
+              minHeight: 10,
+              minWidth: 80,
+              
+            }}
+          >
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label="Language"
+              value={defaultLanguage}
+              onChange={handleLanguageChange}
+              
+            >
+              <MenuItem value={"C"}>C</MenuItem>
+              <MenuItem value={"Python"}>Python</MenuItem>
+              <MenuItem value={"Java"}>Java</MenuItem>
+            </Select>
+          </FormControl>
+
+          {/* <EditorComponent/> */}
+          <Paper
+                  sx={{  marginTop: "0px", fontSize: "20" }}
+          >
+            <Editor
+                      height="75vh"
+                      defaultLanguage={defaultLanguage.toLowerCase()}
+                      defaultValue={python_default_code}
+                      value={defaultCodeTemplate}
+                      language={defaultLanguage.toLowerCase()}
+                      theme="vs-dark"
+                      onMount={(editor)=>{ editorRef.current = editor;}}
+            />
+          </Paper>
+
+          <Box sx={{ m: "13px", marginRight: "10px", textAlign: "right" }}>
+          <ThemeProvider theme={theme}>
+            <Button variant="contained" onClick={sendCode} color="primary">
+              Submit Code
+            </Button>
+            </ThemeProvider>
+          </Box>
+
+        </div>
+        <div className="right-section">
               <Paper
-                elevation={12}
-                sx={{ marginLeft: "70px", marginRight: "20px" }}
-              >
-                <Editor
-                  height="75vh"
-                  defaultLanguage={defaultLanguage.toLowerCase()}
-                  defaultValue={python_default_code}
-                  value={defaultCodeTemplate}
-                  language={defaultLanguage.toLowerCase()}
-                  theme="vs-dark"
-                  onMount={(editor)=>{ editorRef.current = editor;}}
-                />
-              </Paper>
-            </Grid>
-            <Grid xs={12}>
-              <Box sx={{ m: "30px", marginRight: "30px", textAlign: "right" }}>
-                <Button variant="contained" onClick={sendCode}>
-                  Submit
-                </Button>
-              </Box>
-            </Grid>
-          </Grid>
-        </Grid>
-        <Grid xs={6}>
-          <Grid>
-            <Grid>
+                  elevation={8}
+                  sx={{
+                    textAlign: "left",
+                    m: "3px",
+                    marginTop: "20px",
+                    padding: "20px",
+                    paddingTop: "2px",
+                    boxShadow: "none",
+                    background: "#111827",
+                    color: "#b5c0d0"
+                  }}
+                >
+                  <h2>Guidelines</h2>
+                  <FormGroup sx={{ alignContent: "left" }}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          onChange={handleFormChange}
+                          id="Recursion.lapx"
+                        />
+                      }
+                      label="Check if recursion is used"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          id="var_greater_than_31.lapx"
+                          onChange={handleFormChange}
+                        />
+                      }
+                      label="Check if variable name exceeds 31 characters"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          id="Dead_Code.lapx"
+                          onChange={handleFormChange}
+                        />
+                      }
+                      label="Check for dead code"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          id="Assign_in_loop.lapx"
+                          onChange={handleFormChange}
+                        />
+                      }
+                      label="Check for assignment in loop"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          id="Binary_Search_Iterative.lapx"
+                          onChange={handleFormChange}
+                        />
+                      }
+                      label="Check if binary search iterative is implemented"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          id="Continue.lapx"
+                          onChange={handleFormChange}
+                        />
+                      }
+                      label="Check if continue statement is used"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          id="Unused_Functions.lapx"
+                          onChange={handleFormChange}
+                        />
+                      }
+                      label="Check for any unused functions"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          id="One_var_decl.lapx"
+                          onChange={handleFormChange}
+                        />
+                      }
+                      label="One variable declaration per line"
+                    />
+                  </FormGroup>
+                </Paper>
               <Paper
-                elevation={8}
-                sx={{
-                  textAlign: "center",
-                  m: "50px",
-                  marginTop: "0px",
-                  padding: "20px",
-                }}
-              >
-                <h2>Guidelines</h2>
-                <FormGroup sx={{ alignContent: "left" }}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        onChange={handleFormChange}
-                        id="Recursion.lapx"
-                      />
-                    }
-                    label="Recursion"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        id="var_greater_than_31.lapx"
-                        onChange={handleFormChange}
-                      />
-                    }
-                    label="Variable greater than 31"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        id="Dead_Code.lapx"
-                        onChange={handleFormChange}
-                      />
-                    }
-                    label="Dead Code"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        id="Assign_in_loop.lapx"
-                        onChange={handleFormChange}
-                      />
-                    }
-                    label="Assignment in Loop"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        id="Binary_Search_Iterative.lapx"
-                        onChange={handleFormChange}
-                      />
-                    }
-                    label="Binary Search iterative"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        id="Continue.lapx"
-                        onChange={handleFormChange}
-                      />
-                    }
-                    label="Continue statement"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        id="Unused_Functions.lapx"
-                        onChange={handleFormChange}
-                      />
-                    }
-                    label="Unused Functions"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        id="One_var_decl.lapx"
-                        onChange={handleFormChange}
-                      />
-                    }
-                    label="One variable declaration per line"
-                  />
-                </FormGroup>
-              </Paper>
-            </Grid>
-            <Grid>
-              <Paper
-                elevation={8}
-                sx={{
-                  m: "50px",
-                  marginBottom: "0px",
-                  minHeight: "120px",
-                  padding: "20px",
-                }}
-              >
-                <h2 style={{ textAlign: "center" }}>Output</h2>
-                <div style={{ whiteSpace:"pre-line" }}>
-                <p >{violation}</p>
-                </div>
-              </Paper>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
+                  elevation={8}
+                  sx={{
+                    m: "3px",
+                    marginBottom: "0px",
+                    minHeight: "290px",
+                    padding: "20px",
+                    paddingTop: "2px",
+                    background: "#050c1b",
+                    color: "rgb(255,255,255)",
+                    resize: "both"
+                  }}
+                >
+                  
+                  <h2 style={{ textAlign: "left" }}>Output</h2>
+                  <div style={{ whiteSpace:"pre-line", backgroundColor: "#111827", minHeight: "300px", padding: "10px",
+                fontSize: "18px"}}>
+                  <p >{violation}</p>
+                  </div>
+                </Paper>   
+        </div> 
+        
+      </div>
     </div>
   );
 }
