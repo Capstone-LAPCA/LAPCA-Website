@@ -38,6 +38,7 @@ function App() {
   
   function sendCode() {
     const code = editorRef.current.getValue();
+    setViolation("Loading...")
     axios
       .post("https://lapca.herokuapp.com//getResults", {
         code: code,
