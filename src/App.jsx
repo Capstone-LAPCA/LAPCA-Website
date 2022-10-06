@@ -25,28 +25,17 @@ function App() {
     "Dead_Code.lapx": false,
     "var_greater_than_31.lapx": false,
   };
-  const python_default_code = 'print("Hello World")';
+  const python_default_code = `print("Hello World")`;
   const c_default_code =
-    '#include <stdio.h>\nint main(){\n\tprintf("Hello World");\n\treturn 0;\n}';
+    `#include <stdio.h>\nint main(){\n\tprintf("Hello World");\n\treturn 0;\n}`;
   const java_default_code =
-    'class TestProgram{\n\tpublic static void main(String[] args){\n\t\tSystem.out.println("Hello World");\n\t}\n}';
+    `class TestProgram{\n\tpublic static void main(String[] args){\n\t\tSystem.out.println("Hello World");\n\t}\n}`;
 
   const editorRef = useRef(null);
   const [defaultLanguage, setDefaultLanguage] = useState("Python");
   const [defaultCodeTemplate, setDefaultCodeTemplate] = useState(python_default_code);
   const [violation,setViolation]=useState()
-
-  function handleEditorChange(value, event) {
-    // here is the current value
-    console.log(value);
-  }
-
-  function handleEditorDidMount(editor, monaco) {
-    console.log("onMount: the editor instance:", editor);
-    console.log("onMount: the monaco instance:", monaco);
-    editorRef.current = editor;
-  }
-
+  
   function sendCode() {
     const code = editorRef.current.getValue();
     axios
@@ -126,8 +115,7 @@ function App() {
                   value={defaultCodeTemplate}
                   language={defaultLanguage.toLowerCase()}
                   theme="vs-dark"
-                  onChange={handleEditorChange}
-                  onMount={handleEditorDidMount}
+                  onMount={(editor) => {editorRef.current = editor;}}
                 />
               </Paper>
             </Grid>
@@ -153,7 +141,7 @@ function App() {
                 }}
               >
                 <h2>Guidelines</h2>
-                <FormGroup sx={{ alignContent: "center" }}>
+                <FormGroup sx={{ alignContent: "left" }}>
                   <FormControlLabel
                     control={
                       <Checkbox
