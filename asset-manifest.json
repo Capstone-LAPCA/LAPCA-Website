@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/LAPCA-Website/static/css/main.2dbde471.css",
-    "main.js": "/LAPCA-Website/static/js/main.a68c17da.js",
+    "main.css": "/LAPCA-Website/static/css/main.b335ec77.css",
+    "main.js": "/LAPCA-Website/static/js/main.7e64ad09.js",
     "static/js/787.13efdb33.chunk.js": "/LAPCA-Website/static/js/787.13efdb33.chunk.js",
     "index.html": "/LAPCA-Website/index.html",
-    "main.2dbde471.css.map": "/LAPCA-Website/static/css/main.2dbde471.css.map",
-    "main.a68c17da.js.map": "/LAPCA-Website/static/js/main.a68c17da.js.map",
+    "main.b335ec77.css.map": "/LAPCA-Website/static/css/main.b335ec77.css.map",
+    "main.7e64ad09.js.map": "/LAPCA-Website/static/js/main.7e64ad09.js.map",
     "787.13efdb33.chunk.js.map": "/LAPCA-Website/static/js/787.13efdb33.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.2dbde471.css",
-    "static/js/main.a68c17da.js"
+    "static/css/main.b335ec77.css",
+    "static/js/main.7e64ad09.js"
   ]
 }
