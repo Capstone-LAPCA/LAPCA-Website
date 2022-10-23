@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-
+import axios from "axios";
 
 import RightSection from "./Components/RightSection";
 import LeftSection from "./Components/LeftSection";
@@ -7,32 +7,76 @@ import LeftSection from "./Components/LeftSection";
 import "./App.css";
 import "./scrollbar.css"
 
-
-
-
-
-import Editor from "@monaco-editor/react";
-
-import axios from "axios";
-import Button from "@mui/material/Button";
-import Checkbox from "@mui/material/Checkbox";
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Box from "@mui/material/Box";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import Paper from "@mui/material/Paper";
-
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { fontSize } from "@mui/system";
-import { RampRight } from "@mui/icons-material";
-
 function App() {
+  
+
+  const [violation,setViolation]=useState()
+  const [formResult, setFormResult] = useState({
+    "Recursion.lapx": false,
+    "Assign_in_loop.lapx": false,
+    "Continue.lapx": false,
+    "Unused_Functions.lapx": false,
+    "One_var_decl.lapx": false,
+    "Binary_Search_Iterative.lapx": false,
+    "Dead_Code.lapx": false,
+    "var_greater_than_31.lapx": false,
+  });
+  const python_default_code = `print("Hello World")`;
+  const c_default_code =`#include <stdio.h>\nint main(){\n\tprintf("Hello World");\n\treturn 0;\n}`;
+  const java_default_code =`class TestProgram{\n\tpublic static void main(String[] args){\n\t\tSystem.out.println("Hello World");\n\t}\n}`;
+
+  const [language,setLanguage]=useState("py")
+  const [defaultCodeTemplate, setDefaultCodeTemplate] = useState(python_default_code);
+
+  const handleViolation = (data)=>{
+    setViolation(data)
+  }
+  const handleLanguageChange = (event)=>{
+      setLanguage(event.target.value)
+      switch (event.target.value) {
+          case "py":
+            setDefaultCodeTemplate(python_default_code);
+            break;
+          case "c":
+            setDefaultCodeTemplate(c_default_code);
+            break;
+          case "java":
+            setDefaultCodeTemplate(java_default_code);
+            break;
+          default:
+            setDefaultCodeTemplate(python_default_code);
+        }
+  }
+  function handleFormChange(event) {
+    let newFormResult = formResult;
+    newFormResult[event.target.id] = event.target.checked;
+    setFormResult(newFormResult);
+    console.log(formResult);
+  }
+  // function sendCode() {
+  //   console.log("clicked")
+  //   const code = editorRef.current.getValue();
+  //   setViolation("Loading...")
+  //   axios
+  //     .post("http://127.0.0.1:3003//getResults", {
+  //       code: code,
+  //       language: language,
+  //       form: formResult,
+  //     })
+  //     .then((res) => {
+  //       console.log(res.data);
+  //       setViolation(res.data)
+  //     })
+  //     .catch((err) => {
+  //       console.log("Error",err);
+  //     });
+  // }
+
+
   return(
     <div className="main-body">
-      <LeftSection/>
-      <RightSection/>
+      <LeftSection handleLanguageChange={handleLanguageChange} language={language} editorRef={editorRef} defaultCodeTemplate={defaultCodeTemplate} formResult={formResult}/>
+      <RightSection handleFormChange={handleFormChange} violation={violation} />
     </div>
   );
 

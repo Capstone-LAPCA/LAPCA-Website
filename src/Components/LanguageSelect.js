@@ -5,7 +5,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 
-export default function LanguageSelect({setDefaultCodeTemplate},{setLanguage}){
+export default function LanguageSelect(props){
     
     const themeDark = createTheme({
         palette: {
@@ -17,26 +17,8 @@ export default function LanguageSelect({setDefaultCodeTemplate},{setLanguage}){
           }
         }
       });
-      const python_default_code = `print("Hello World")`;
-      const c_default_code =`#include <stdio.h>\nint main(){\n\tprintf("Hello World");\n\treturn 0;\n}`;
-      const java_default_code =`class TestProgram{\n\tpublic static void main(String[] args){\n\t\tSystem.out.println("Hello World");\n\t}\n}`;
-    
-      function handleLanguageChange(event) {
-        setLanguage(event.target.value);
-        switch (event.target.value) {
-          case "py":
-            setDefaultCodeTemplate(python_default_code);
-            break;
-          case "c":
-            setDefaultCodeTemplate(c_default_code);
-            break;
-          case "java":
-            setDefaultCodeTemplate(java_default_code);
-            break;
-          default:
-            setDefaultCodeTemplate(python_default_code);
-        }
-      }
+
+
     return(
         <FormControl
             sx={{
@@ -51,9 +33,9 @@ export default function LanguageSelect({setDefaultCodeTemplate},{setLanguage}){
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              label="Language"
-              value="py"
-              onChange={handleLanguageChange}
+              label={props.language}
+              value={props.language}
+              onChange={props.handleLanguageChange}
 
             >
               <MenuItem value={"c"}>C</MenuItem>

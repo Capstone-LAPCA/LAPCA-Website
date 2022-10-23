@@ -7,7 +7,8 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 
 
-export default function CodeEditor({language},{defaultCodeTemplate}){
+export default function CodeEditor(props){
+  const editorRef = useRef(null);
     const theme = createTheme({
         palette: {
           primary: {
@@ -16,18 +17,17 @@ export default function CodeEditor({language},{defaultCodeTemplate}){
           },
         },
       });
-
-    const editorRef = useRef(null);
-    const [violation,setViolation]=useState()
-
-    function sendCode() {
+      
+      function sendCode() {
+        console.log("clicked")
         const code = editorRef.current.getValue();
         setViolation("Loading...")
+        
         axios
-          .post("https://lapca.herokuapp.com//getResults", {
+          .post("http://127.0.0.1:3003//getResults", {
             code: code,
-            language: language,
-            // form: formResult,
+            language: props.language,
+            form: props.formResult,
           })
           .then((res) => {
             console.log(res.data);
@@ -37,17 +37,18 @@ export default function CodeEditor({language},{defaultCodeTemplate}){
             console.log("Error",err);
           });
       }
+
     return(
     <div>
     <Paper sx={{  marginTop: "0px", fontSize: "20" }}>
         <Editor
             height="75vh"
-            defaultLanguage={language.toLowerCase()}
+            defaultLanguage={props.language.toLowerCase()}
             defaultValue={`print("Hello World")`}
-            value={defaultCodeTemplate}
-            language={language.toLowerCase()}
+            value={props.defaultCodeTemplate}
+            language={props.language.toLowerCase()}
             theme="vs-dark"
-            onMount={(editor)=>{ editorRef.current = editor;}}
+            onMount={(editor)=>{ props.editorRef.current = editor;}}
         />
     </Paper>
 

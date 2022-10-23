@@ -7,13 +7,11 @@ import CodeEditor from "./CodeEditor";
 
 import "./../Styles/LeftSection.css"
 
-export default function LeftSection(){
-    const [language,setLanguage]=useState("py")
-    const [defaultCodeTemplate, setDefaultCodeTemplate] = useState(`print("Hello World")`);
+export default function LeftSection(props){
     return(
     <div className="left-section">
-        <LanguageSelect setDefaultCodeTemplate={setDefaultCodeTemplate} setLanguage={setLanguage} language={language}/>
-        <CodeEditor language={language} defaultCodeTemplate={defaultCodeTemplate}/>
+        <LanguageSelect editorRef={props.editorRef} sendCode={props.sendCode} handleLanguageChange={props.handleLanguageChange} language={props.language}/>
+        <CodeEditor language={props.language} defaultCodeTemplate={props.defaultCodeTemplate}/>
     </div>
     );
 }
