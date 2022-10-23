@@ -7,7 +7,6 @@ import Checkbox from "@mui/material/Checkbox";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Box from "@mui/material/Box";
-import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
@@ -54,7 +53,7 @@ function App() {
     `class TestProgram{\n\tpublic static void main(String[] args){\n\t\tSystem.out.println("Hello World");\n\t}\n}`;
 
   const editorRef = useRef(null);
-  const [defaultLanguage, setDefaultLanguage] = useState("Python");
+  const [defaultLanguage, setDefaultLanguage] = useState("py");
   const [defaultCodeTemplate, setDefaultCodeTemplate] = useState(python_default_code);
   const [violation,setViolation]=useState()
   
@@ -79,13 +78,13 @@ function App() {
   function handleLanguageChange(event) {
     setDefaultLanguage(event.target.value);
     switch (event.target.value) {
-      case "Python":
+      case "py":
         setDefaultCodeTemplate(python_default_code);
         break;
-      case "C":
+      case "c":
         setDefaultCodeTemplate(c_default_code);
         break;
-      case "Java":
+      case "java":
         setDefaultCodeTemplate(java_default_code);
         break;
       default:
@@ -128,9 +127,9 @@ function App() {
               onChange={handleLanguageChange}
 
             >
-              <MenuItem value={"C"}>C</MenuItem>
-              <MenuItem value={"Python"}>Python</MenuItem>
-              <MenuItem value={"Java"}>Java</MenuItem>
+              <MenuItem value={"c"}>C</MenuItem>
+              <MenuItem value={"py"}>Python</MenuItem>
+              <MenuItem value={"java"}>Java</MenuItem>
             </Select>
             </ThemeProvider>
           </FormControl>
