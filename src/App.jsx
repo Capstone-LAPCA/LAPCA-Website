@@ -9,7 +9,7 @@ import "./scrollbar.css"
 
 function App() {
   
-
+  const editorRef = useRef(null)
   const [violation,setViolation]=useState()
   const [formResult, setFormResult] = useState({
     "Recursion.lapx": false,
@@ -28,8 +28,8 @@ function App() {
   const [language,setLanguage]=useState("py")
   const [defaultCodeTemplate, setDefaultCodeTemplate] = useState(python_default_code);
 
-  const handleViolation = (data)=>{
-    setViolation(data)
+  function handleEditorDidMount(editor,monaco){
+    editorRef.current=editor;
   }
   const handleLanguageChange = (event)=>{
       setLanguage(event.target.value)
@@ -53,30 +53,41 @@ function App() {
     setFormResult(newFormResult);
     console.log(formResult);
   }
-  // function sendCode() {
-  //   console.log("clicked")
-  //   const code = editorRef.current.getValue();
-  //   setViolation("Loading...")
-  //   axios
-  //     .post("http://127.0.0.1:3003//getResults", {
-  //       code: code,
-  //       language: language,
-  //       form: formResult,
-  //     })
-  //     .then((res) => {
-  //       console.log(res.data);
-  //       setViolation(res.data)
-  //     })
-  //     .catch((err) => {
-  //       console.log("Error",err);
-  //     });
-  // }
+
+  function sendCode() {
+    console.log("clicked")
+    const code = editorRef.current.getValue();
+    console.log(code)
+    setViolation("Loading...")
+    axios
+      .post("http://127.0.0.1:3003//getResults", {
+        code: code,
+        language: language,
+        form: formResult,
+      })
+      .then((res) => {
+        console.log(res.data);
+        setViolation(res.data)
+      })
+      .catch((err) => {
+        console.log("Error",err);
+      });
+  }
 
 
   return(
     <div className="main-body">
-      <LeftSection handleLanguageChange={handleLanguageChange} language={language} editorRef={editorRef} defaultCodeTemplate={defaultCodeTemplate} formResult={formResult}/>
-      <RightSection handleFormChange={handleFormChange} violation={violation} />
+      <LeftSection 
+      sendCode={sendCode} 
+      handleLanguageChange={handleLanguageChange} 
+      language={language}  
+      defaultCodeTemplate={defaultCodeTemplate} 
+      formResult={formResult}
+      handleEditorDidMount={handleEditorDidMount}/>
+
+      <RightSection 
+      handleFormChange={handleFormChange} 
+      violation={violation} />
     </div>
   );
 

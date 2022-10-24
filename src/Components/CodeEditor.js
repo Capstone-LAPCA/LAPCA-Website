@@ -8,7 +8,6 @@ import Button from "@mui/material/Button";
 
 
 export default function CodeEditor(props){
-  const editorRef = useRef(null);
     const theme = createTheme({
         palette: {
           primary: {
@@ -18,25 +17,6 @@ export default function CodeEditor(props){
         },
       });
       
-      function sendCode() {
-        console.log("clicked")
-        const code = editorRef.current.getValue();
-        setViolation("Loading...")
-        
-        axios
-          .post("http://127.0.0.1:3003//getResults", {
-            code: code,
-            language: props.language,
-            form: props.formResult,
-          })
-          .then((res) => {
-            console.log(res.data);
-            setViolation(res.data)
-          })
-          .catch((err) => {
-            console.log("Error",err);
-          });
-      }
 
     return(
     <div>
@@ -44,17 +24,17 @@ export default function CodeEditor(props){
         <Editor
             height="75vh"
             defaultLanguage={props.language.toLowerCase()}
-            defaultValue={`print("Hello World")`}
+            defaultValue={props.defaultCodeTemplate}
             value={props.defaultCodeTemplate}
             language={props.language.toLowerCase()}
             theme="vs-dark"
-            onMount={(editor)=>{ props.editorRef.current = editor;}}
+            onMount={props.handleEditorDidMount}
         />
     </Paper>
 
     <Box sx={{ m: "13px", marginRight: "10px", textAlign: "right" }}>
         <ThemeProvider theme={theme}>
-            <Button variant="contained" onClick={sendCode} color="primary">
+            <Button variant="contained" onClick={props.sendCode} color="primary">
                 Submit Code
             </Button>
         </ThemeProvider>
