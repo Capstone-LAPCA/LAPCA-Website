@@ -1,18 +1,14 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
 import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { ConstructionRounded } from '@mui/icons-material';
-
 
 const FileUploader = props => {
 
     const theme = createTheme({
         palette: {
             primary: {
-            // This is green.A700 as hex.
-            main: '#0096FF',
+            main: '#1976d2',
             },
         },
         });
@@ -24,6 +20,7 @@ const FileUploader = props => {
   const handleClick = event => {
     hiddenFileInput.current.click();
   };
+  
   const handleChange = event => {
     const fileUploaded = event.target.files[0];
     let name = fileUploaded.name;
@@ -31,7 +28,7 @@ const FileUploader = props => {
     fr.readAsText(fileUploaded);
     fr.onload = () => {
         let extension = name.split(".");
-        if (extension[extension.length - 1] != props.language){
+        if (extension[extension.length - 1] !== props.language){
             alert("Code does not match the language selected. Please upload a different file")
             return;
         }
@@ -44,7 +41,7 @@ const FileUploader = props => {
   return (
     <>
     <ThemeProvider theme={theme}>
-        <span style={{color: "#ffff", marginRight: "20px"}}>
+        <span style={{color: "#ffff", marginRight: "10px"}}>
             {fileName}
         </span>
       <Button onClick={handleClick} variant="contained" style={{marginRight: "20px"}}>

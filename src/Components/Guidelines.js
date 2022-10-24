@@ -4,10 +4,22 @@ import Checkbox from "@mui/material/Checkbox";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import axios from "axios";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Button from "@mui/material/Button";
+
 import '../Styles/RightSection.css';
 
 
 export default function Guidelines(props){
+
+    const theme = createTheme({
+        palette: {
+            primary: {
+            main: '#1976d2',
+            },
+        },
+        });
+
     const [guideline, setGuideline] = useState([]);
     
     useEffect(()=>{
@@ -141,6 +153,14 @@ export default function Guidelines(props){
                 label="One variable declaration per line"
             />
             </FormGroup>
+            
+            <span style={{display: "flex", justifyContent: "right"}}>
+                <ThemeProvider theme={theme}>
+                    <Button  variant="contained">
+                        Upload Guideline
+                    </Button>
+                </ThemeProvider>
+            </span>
     </Paper>
 
     );
