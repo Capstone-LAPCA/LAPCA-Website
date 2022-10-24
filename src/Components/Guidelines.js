@@ -1,167 +1,88 @@
-import React, { useEffect, useState } from "react";
-import Paper from "@mui/material/Paper";
-import Checkbox from "@mui/material/Checkbox";
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import axios from "axios";
+import * as React from 'react';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
+import PropTypes from 'prop-types';
+import Box from '@mui/material/Box';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Button from "@mui/material/Button";
 
-import '../Styles/RightSection.css';
+import GuidelinesList from './GuidelineList'
+import GuidelineEditor from './GuidelineEditor'
+
+import  "../Styles/RightSection.css"
 
 
-export default function Guidelines(props){
 
-    const theme = createTheme({
-        palette: {
-            primary: {
-            main: '#1976d2',
-            },
-        },
-        });
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
 
-    const [guideline, setGuideline] = useState([]);
-    
-    useEffect(()=>{
-        axios
-        .get("http://127.0.0.1:3003//getGuidelines")
-        .then((res) => {
-        //   console.log("res", res.data);
-          let data = res.data;
-        //   console.log("data", data);
-          setGuideline(data);
-        //   console.log(guideline);
-        })
-        .catch((err) => {
-          console.log("Error",err);
-        });
-    },[])
-
-    return(
-
-    <Paper
-            elevation={8}
-            sx={{
-            textAlign: "left",
-            m: "3px",
-            marginTop: "20px",
-            padding: "20px",
-            paddingTop: "2px",
-            boxShadow: "none",
-            background: "#111827",
-            color: "#b5c0d0"
-            }}
-        >
-            <h2>Guidelines</h2>
-            <FormGroup sx={{ alignContent: "left" }}>
-
-            {/* {data.map(item=>{
-                return(
-                    <FormControlLabel
-                    control={
-                    <Checkbox
-                        onChange={props.handleFormChange}
-                        sx={{color: 'aliceblue'}}
-                        id={item.name}
-                    />
-                }
-                label="Check if recursion is used"
-            />
-                )
-            })
-
-            } */}
-
-            <FormControlLabel
-                control={
-                <Checkbox
-                    onChange={props.handleFormChange}
-                    sx={{color: 'aliceblue'}}
-                    id="Recursion.lapx"
-                />
-                }
-                label="Check if recursion is used"
-            />
-            <FormControlLabel
-                control={
-                <Checkbox
-                    id="var_greater_than_31.lapx"
-                    sx={{color: 'aliceblue'}}
-                    onChange={props.handleFormChange}
-                />
-                }
-                label="Check if variable name exceeds 31 characters"
-            />
-            <FormControlLabel
-                control={
-                <Checkbox
-                    id="Dead_Code.lapx"
-                    sx={{color: 'aliceblue'}}
-                    onChange={props.handleFormChange}
-                />
-                }
-                label="Check for dead code"
-            />
-            <FormControlLabel
-                control={
-                <Checkbox
-                    id="Assign_in_loop.lapx"
-                    sx={{color: 'aliceblue'}}
-                    onChange={props.handleFormChange}
-                />
-                }
-                label="Check for assignment in loop"
-            />
-            <FormControlLabel
-                control={
-                <Checkbox
-                    id="Binary_Search_Iterative.lapx"
-                    sx={{color: 'aliceblue'}}
-                    onChange={props.handleFormChange}
-                />
-                }
-                label="Check if binary search iterative is implemented"
-            />
-            <FormControlLabel
-                control={
-                <Checkbox
-                    id="Continue.lapx"
-                    sx={{color: 'aliceblue'}}
-                    onChange={props.handleFormChange}
-                />
-                }
-                label="Check if continue statement is used"
-            />
-            <FormControlLabel
-                control={
-                <Checkbox
-                    id="Unused_Functions.lapx"
-                    sx={{color: 'aliceblue'}}
-                    onChange={props.handleFormChange}
-                />
-                }
-                label="Check for any unused functions"
-            />
-            <FormControlLabel
-                control={
-                <Checkbox
-                    id="One_var_decl.lapx"
-                    sx={{color: 'aliceblue'}}
-                    onChange={props.handleFormChange}
-                />
-                }
-                label="One variable declaration per line"
-            />
-            </FormGroup>
-            
-            <span style={{display: "flex", justifyContent: "right"}}>
-                <ThemeProvider theme={theme}>
-                    <Button  variant="contained">
-                        Upload Guideline
-                    </Button>
-                </ThemeProvider>
-            </span>
-    </Paper>
-
-    );
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 2 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
 }
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
+
+  
+  export default function Guidelines(props) {
+    const [value, setValue] = React.useState(0);
+  
+    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+      setValue(newValue);
+    };
+    const theme = createTheme({
+      palette: {
+          primary: {
+          main: '#1976d2',
+          },
+      },
+      });
+  
+
+    return (
+        <div className="guidelines">
+                {/* <h2 >Guidelines</h2> */}
+                <Box sx={{marginTop:"0px",borderBottom: 1, borderColor: 'divider'}}>
+                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" >
+                        <Tab style={{marginTop:"30px",color:"#b5c0d0",fontWeight:"bold", fontSize:"1.2em"}} label="Guideline List" {...a11yProps(0)} />
+                        <Tab style={{marginTop:"30px",color:"#b5c0d0", fontWeight:"bold", fontSize:"1.2em"}} label="Edit" {...a11yProps(1)} />
+                    </Tabs>
+                </Box>
+          
+          
+                <Box sx={{ width: '100%' }}>
+                    <TabPanel value={value} index={0}>
+                        <GuidelinesList handleFormChange={props.handleFormChange}/>
+                    </TabPanel>
+                    <TabPanel value={value} index={1}>
+                        <GuidelineEditor/>
+                    </TabPanel>
+                </Box>
+    
+      </div>
+    );
+  }
+  
