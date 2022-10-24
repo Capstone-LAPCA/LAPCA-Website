@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
-
+import FileUploader from "./FileUploader";
 
 export default function CodeEditor(props){
     const python_default_code = `print("Hello World")`;
@@ -35,12 +35,19 @@ export default function CodeEditor(props){
     </Paper>
 
     <Box sx={{ m: "13px", marginRight: "10px", textAlign: "right" }}>
+        <FileUploader 
+        setDefaultCodeTemplate = {props.setDefaultCodeTemplate}
+        language={props.language.toLowerCase()}
+        />
         <ThemeProvider theme={theme}>
+
             <Button variant="contained" onClick={props.sendCode} color="primary">
                 Submit Code
             </Button>
+            
         </ThemeProvider>
     </Box>
+
     </div>
     );
 }

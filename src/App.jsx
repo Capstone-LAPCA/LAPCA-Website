@@ -21,7 +21,7 @@ function App() {
     "Dead_Code.lapx": false,
     "var_greater_than_31.lapx": false,
   });
-  
+
   const python_default_code = `print("Hello World")`;
   const c_default_code =`#include <stdio.h>\nint main(){\n\tprintf("Hello World");\n\treturn 0;\n}`;
   const java_default_code =`class TestProgram{\n\tpublic static void main(String[] args){\n\t\tSystem.out.println("Hello World");\n\t}\n}`;
@@ -88,7 +88,8 @@ function App() {
       language={language}  
       defaultCodeTemplate={defaultCodeTemplate} 
       formResult={formResult}
-      handleEditorDidMount={handleEditorDidMount}/>
+      handleEditorDidMount={handleEditorDidMount}
+      setDefaultCodeTemplate = {setDefaultCodeTemplate}/>
 
       <RightSection 
       handleFormChange={handleFormChange} 

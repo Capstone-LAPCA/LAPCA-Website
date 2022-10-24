@@ -14,11 +14,11 @@ export default function Guidelines(props){
         axios
         .get("http://127.0.0.1:3003//getGuidelines")
         .then((res) => {
-          console.log("res", res.data);
+        //   console.log("res", res.data);
           let data = res.data;
-          console.log("data", data);
+        //   console.log("data", data);
           setGuideline(data);
-          console.log(guideline);
+        //   console.log(guideline);
         })
         .catch((err) => {
           console.log("Error",err);

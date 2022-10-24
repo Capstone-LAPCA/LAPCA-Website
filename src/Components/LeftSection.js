@@ -15,14 +15,14 @@ export default function LeftSection(props){
         sendCode={props.sendCode} 
         handleLanguageChange={props.handleLanguageChange} 
         language={props.language}
-       
-
         />
+        
         <CodeEditor 
         language={props.language} 
         sendCode={props.sendCode} 
         defaultCodeTemplate={props.defaultCodeTemplate}  
-        handleEditorDidMount={props.handleEditorDidMount}/>
+        handleEditorDidMount={props.handleEditorDidMount}
+        setDefaultCodeTemplate = {props.setDefaultCodeTemplate}/>
     </div>
     );
 }
