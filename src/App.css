@@ -39,72 +39,7 @@
 
 .main-body{
   display: flex;
-  flex-direction: row;
-  
-}
-
-.left-section{
-  background: #050c1b;
-  width: 60%;
-  padding: 20px;
-  margin-top: 20px;
-}
-
-
-.right-section{
-  background-color: #111827;
-  width: 40%;
-  padding: 10px;
-  margin-top: 20px;
-}
-
-.Select{
-  color: white;
-  background: white;
-}
-
-.css-1sumxir-MuiFormLabel-root-MuiInputLabel-root{
-  color: white !important;
-}
-
-/* Language drop down */
-.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input{
-  background: #1d2432 !important;
-  color: white !important;
-}
-
-.monaco-editor{
-  background-color: #1d2432 !important;
-  border-radius: 10%;
-}
-
-.monaco-editor, 
-.monaco-editor-background, 
-.monaco-editor .inputarea.ime-input, 
-.monaco-editor .margin, 
-.monaco-editor .minimap,
-.decorationsOverviewRuler {
-  background-color: #1d2432 !important;
-}
-
-/* Checkbox */
-.css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root{
-  color: #b5c0d0 !important;
-}
-
-/* Language Drop down icon */
-.css-hfutr2-MuiSvgIcon-root-MuiSelect-icon{
-  color: aliceblue;
-}
-
-/* Editor minimap */
-.minimap-decorations-layer {
-  background-color: inherit;
-  width: 0;
-}
-
-.monaco-scrollable-element>.invisible {
-  background-color: #1d2432 !important;
+  flex-direction: row; 
 }
 
 /* ul.MuiList-root.MuiList-padding.MuiMenu-list.css-6hp17o-MuiList-root-MuiMenu-list {

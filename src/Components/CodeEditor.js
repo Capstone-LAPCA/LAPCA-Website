@@ -8,6 +8,8 @@ import Button from "@mui/material/Button";
 
 
 export default function CodeEditor(props){
+    const python_default_code = `print("Hello World")`;
+
     const theme = createTheme({
         palette: {
           primary: {
@@ -24,7 +26,7 @@ export default function CodeEditor(props){
         <Editor
             height="75vh"
             defaultLanguage={props.language.toLowerCase()}
-            defaultValue={props.defaultCodeTemplate}
+            defaultValue={python_default_code}
             value={props.defaultCodeTemplate}
             language={props.language.toLowerCase()}
             theme="vs-dark"

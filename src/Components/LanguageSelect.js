@@ -1,9 +1,9 @@
 import React, { useRef, useState } from "react";
-
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import '../Styles/LeftSection.css'
 
 export default function LanguageSelect(props){
     

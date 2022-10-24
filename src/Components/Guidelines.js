@@ -1,12 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
-
+import axios from "axios";
+import '../Styles/RightSection.css';
 
 
 export default function Guidelines(props){
+    const [guideline, setGuideline] = useState([]);
+    
+    useEffect(()=>{
+        axios
+        .get("http://127.0.0.1:3003//getGuidelines")
+        .then((res) => {
+          console.log("res", res.data);
+          let data = res.data;
+          console.log("data", data);
+          setGuideline(data);
+          console.log(guideline);
+        })
+        .catch((err) => {
+          console.log("Error",err);
+        });
+    },[])
+
     return(
 
     <Paper
@@ -24,6 +42,24 @@ export default function Guidelines(props){
         >
             <h2>Guidelines</h2>
             <FormGroup sx={{ alignContent: "left" }}>
+
+            {/* {data.map(item=>{
+                return(
+                    <FormControlLabel
+                    control={
+                    <Checkbox
+                        onChange={props.handleFormChange}
+                        sx={{color: 'aliceblue'}}
+                        id={item.name}
+                    />
+                }
+                label="Check if recursion is used"
+            />
+                )
+            })
+
+            } */}
+
             <FormControlLabel
                 control={
                 <Checkbox
