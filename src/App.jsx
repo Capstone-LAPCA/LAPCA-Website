@@ -10,7 +10,7 @@ import "./scrollbar.css"
 function App() {
   
   const editorRef = useRef(null)
-  const [violation,setViolation]=useState()
+  const [violation,setViolation]=useState({compilationErr:false,compilationOutput:"Compiled Successfully",guidelines:[]})
   const [formResult, setFormResult] = useState({
     "Recursion.lapx": false,
     "Assign_in_loop.lapx": false,
@@ -59,7 +59,7 @@ function App() {
     console.log("clicked")
     const code = editorRef.current.getValue();
     console.log(code)
-    setViolation("Loading...")
+    // setViolation("Loading...")
     axios
       .post("http://127.0.0.1:3003//getResults", {
         code: code,
