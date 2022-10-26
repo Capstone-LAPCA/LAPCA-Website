@@ -42,7 +42,7 @@ export default function CodeEditor(props){
         <ThemeProvider theme={theme}>
 
             <Button variant="contained" onClick={props.sendCode} color="primary">
-                Submit Code
+                <b>Submit Code</b>
             </Button>
             
         </ThemeProvider>

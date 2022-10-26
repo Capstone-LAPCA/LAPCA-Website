@@ -60,6 +60,7 @@ function App() {
     const code = editorRef.current.getValue();
     console.log(code)
     // setViolation("Loading...")
+    setViolation({compilationErr:false,compilationOutput:"Compiled Successfully",guidelines:[]});
     axios
       .post("http://127.0.0.1:3003//getResults", {
         code: code,

@@ -45,7 +45,7 @@ const FileUploader = props => {
             {fileName}
         </span>
       <Button onClick={handleClick} variant="contained" style={{marginRight: "20px"}}>
-        Upload Code
+        <b>Upload Code</b>
       </Button>
     </ThemeProvider>
 

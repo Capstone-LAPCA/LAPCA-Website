@@ -25,3 +25,24 @@
   margin-left: 0.5em;
   margin-bottom: 0.2em;
 } */
+
+
+.guideline-list{
+  display: grid;
+  grid-template-columns: 8fr 1fr;
+}
+
+.guideline-header{
+  padding-top: 10px;
+  display: grid;
+  grid-template-columns: 8fr 1fr;
+}
+
+.form-group{
+  height: 400px;
+  overflow-y: auto;
+}
+
+.css-1t1j96h-MuiPaper-root-MuiDialog-paper{
+  border: "2px solid white" !important;
+}
