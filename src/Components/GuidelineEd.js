@@ -13,7 +13,7 @@ import { alpha, styled } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 
 export default function GuidelineEd(props) { 
-
+  
   return (
     <div style={{backgroundColor: "#111827", maxWidth: "auto"}}>
       <Dialog open={props.open} onClose={props.handleClose} sx={{ input: { minWidth: '70vh', maxWidth: 'auto'}}}>
@@ -46,7 +46,7 @@ export default function GuidelineEd(props) {
                 theme="vs-dark"
                 minimap= {{ enabled: false }}
                 onChange={(event) => props.handleSetCode(event)}
-                onMount={props.handleEditorDidMount}
+                onMount={props.handleGuidelineEditorDidMount}
             />
         </Paper>
         </DialogContent>
@@ -62,7 +62,7 @@ export default function GuidelineEd(props) {
             Cancel
           </Button>
           <Button 
-            onClick={props.handleSave}
+            onClick={(event) => props.handleSave(event)}
             style={{color:"aliceblue"}}>
             Save
           </Button>

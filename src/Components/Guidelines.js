@@ -14,66 +14,7 @@ import GuidelineEd from "./GuidelineEd";
 import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function Guidelines(props){
-    const [open, setOpen] = React.useState(false);
-    const [title, setTitle] = React.useState("");
-    const [add, setAdd] = React.useState(true);
-    const [guideline, setGuideline] = useState([]);
-    const [code, setCode] = useState("");
-    const [values, setValues] = useState(
-                        {"id":"",
-                        "label":"",
-                        "code":""});
-    const [userGuideline, setUserGuideline] = useState([]);
-    const guidelineEditorRef = React.useRef(null)
-    
-
-    function handleEditorDidMount(editor,monaco){
-      guidelineEditorRef.current=editor;
-    }
-
-    const handleSetTitle = (event) =>{
-      setTitle(event.target.value)
-      setValues((oldValues) => ({
-        ...oldValues,
-        ["label"]: event.target.value,
-      }));
-    }
-
-    const handleSetCode = (event) =>{
-      const guidelineCode = guidelineEditorRef.current.getValue();
-      setCode(guidelineCode)
-      
-      setValues((oldValues) => ({
-        ...oldValues,
-        ["code"]: guidelineCode,
-      }));
-    }
-
-    const handleSave = (e) =>{
-      let new_guideline = values;
-      setUserGuideline([...userGuideline, new_guideline]);
-      handleClose();
-    }
-
-    const handleClickOpen = (event, k, code) => {
-      setTitle(k);
-      setOpen(true);
-      setAdd(true);
-      setCode(code);
-    };
-
-    const handleDelete = (e, val) =>{
-      let filteredArray = userGuideline.filter(item => item["label"] !== val)
-      setUserGuideline(filteredArray);
-    };
-    
-    const handleClose = () => {
-      setValues({"id":"",
-      "label":"",
-      "code":""});
-      setOpen(false);
-    };
-
+    const [guidelineType, setGuidelineType] = React.useState("predefined");
     const theme = createTheme({
         palette: {
             primary: {
@@ -84,17 +25,7 @@ export default function Guidelines(props){
 
     
     useEffect(()=>{
-        axios
-        .get("http://127.0.0.1:3003//getGuidelines")
-        .then((res) => {
-        let data = res.data;
-        console.log(data);
-          setGuideline(data["guidelines"]);
-          
-        })
-        .catch((err) => {
-          console.log("Error",err);
-        });
+        props.getGuidelines();
     },[])
 
     return(
@@ -113,21 +44,22 @@ export default function Guidelines(props){
             
             }}
         >
-          <GuidelineEd open = {open} 
-                       handleClose = {handleClose} 
-                       title={title} 
-                       add={add}
-                       userGuideline = {userGuideline}
-                       code = {code}
-                       values = {values}
-                       handleSave = {handleSave}
-                       handleSetTitle = {handleSetTitle}
-                       handleSetCode = {handleSetCode}
-                       handleEditorDidMount = {handleEditorDidMount}/>
+          <GuidelineEd open = {props.open} 
+                       handleClose = {props.handleClose} 
+                       title={props.title} 
+                       userGuideline = {props.userGuideline}
+                       code = {props.code}
+                       values = {props.values}
+                       handleSave = {props.handleSave}
+                       handleSetTitle = {props.handleSetTitle}
+                       handleSetCode = {props.handleSetCode}
+                       handleGuidelineEditorDidMount = {props.handleGuidelineEditorDidMount}
+                       handleCustomSave = {props.handleCustomSave}
+                       />
           <div className="guideline-header">
             <h1>Guidelines</h1>
             <Button variant="contained" 
-              onClick={(event) => handleClickOpen(event, "New_guideline.lapx")}
+              onClick={(event) => props.handleClickOpen(event, "New_guideline.lapx")}
               style={{ 
                       height: "40%", 
                       top: "50%", 
@@ -145,7 +77,8 @@ export default function Guidelines(props){
 
               <FormGroup  sx={{ alignContent: "left"}}>
 
-                {guideline.map(item=>{
+                 {
+                    props.guideline.map(item=>{
                     return(
                       <div className="guideline-list">
                         <FormControlLabel
@@ -162,7 +95,7 @@ export default function Guidelines(props){
                         <Button 
                           data-id = {item.id} 
                           key={item.id} 
-                          onClick={(event) => handleClickOpen(event, item.label, item.lapx_code)} 
+                          onClick={(event) => props.handleClickOpen(event, item.label, item.lapx_code,  ["predefined"])} 
                           variant="contained" 
                           style={{ width: "5%", 
                                   height: "70%", 
@@ -183,7 +116,7 @@ export default function Guidelines(props){
                 }
 
                 <p>Custom Guidelines</p>
-                {userGuideline.map(item=>{
+                {props.userGuideline.map(item=>{
                     return(
                       <div className="guideline-list-custom">
                         <FormControlLabel
@@ -200,7 +133,7 @@ export default function Guidelines(props){
                         <Button 
                           data-id = {item.id} 
                           key={item.id} 
-                          onClick={(event) => handleClickOpen(event, item.label, item.code)} 
+                          onClick={(event) => props.handleClickOpen(event, item.label, item.code, ["custom",item.id])} 
                           variant="contained" 
                           style={{ width: "5%", 
                                   height: "70%", 
@@ -216,9 +149,8 @@ export default function Guidelines(props){
                         </Button>
 
                         <Button 
-                          data-id = {item.id} 
-                          key={item.id} 
-                          onClick={(event) => handleDelete(event, item.label)} 
+                          
+                          onClick={(event) => props.handleDelete(event, item.id)} 
                           variant="contained" 
                           style={{ width: "8%", 
                                   height: "70%", 

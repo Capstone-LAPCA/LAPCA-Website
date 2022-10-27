@@ -23,7 +23,8 @@ function App() {
     "var_greater_than_31.lapx": false,
   });
 
-  const [formUser, setFormUserResult] = useState([]);
+  // const [formUser, setFormUserResult] = useState([]);
+
   const python_default_code = `print("Hello World")`;
   const c_default_code =`#include <stdio.h>\nint main(){\n\tprintf("Hello World");\n\treturn 0;\n}`;
   const java_default_code =`class TestProgram{\n\tpublic static void main(String[] args){\n\t\tSystem.out.println("Hello World");\n\t}\n}`;
@@ -31,6 +32,124 @@ function App() {
   const [language,setLanguage]=useState("py")
   const [defaultCodeTemplate, setDefaultCodeTemplate] = useState(python_default_code);
   const [isLoading, setIsLoading]=useState("hidden");
+
+  const [open, setOpen] = React.useState(false);
+  const [title, setTitle] = React.useState("");
+  const [guideline, setGuideline] = useState([]);
+  const [code, setCode] = useState("");
+  const [values, setValues] = useState(
+                      {"id":0,
+                      "label":"",
+                      "code":""});
+  var [globalID, setGlobalId] = useState(0);
+  const [userGuideline, setUserGuideline] = useState([]);
+  const [guidelineType, setGuidelineType] = useState(["predefined"]);
+  const guidelineEditorRef = React.useRef(null)
+
+  function handleGuidelineEditorDidMount(editor,monaco){
+    guidelineEditorRef.current=editor;
+  }
+
+  const handleSetTitle = (event) =>{
+    setTitle(event.target.value)
+    setValues((oldValues) => ({
+      ...oldValues,
+      ["label"]: event.target.value,
+    }));
+  }
+
+  const handleSetCode = (event) =>{
+    const guidelineCode = guidelineEditorRef.current.getValue();
+    setCode(guidelineCode)
+      setValues((oldValues) => ({
+        ...oldValues,
+        ["code"]: guidelineCode,
+      }));
+  }
+
+  const handleSave = (e) =>{
+    setTimeout(()=>{
+      if(guidelineType[0] === "predefined"){
+        setTimeout(()=>{
+          setValues((oldValues) => ({
+            ...oldValues,
+            ["id"]: globalID,
+          }));
+          setTimeout(() =>{
+            let a = globalID + 1;
+            setGlobalId(a) 
+
+          },100)
+        },1000);
+        let new_guideline = values;
+        setUserGuideline([...userGuideline, new_guideline]);
+      }
+      // if(guidelineType[0] === "custom"){
+      //   for(let i = 0; i<userGuideline.length; i++){
+      //     if(userGuideline[i]["id"] === guidelineType[1]){
+      //         setUserGuideline((oldValues)=>({
+      //           ...oldValues[i],
+      //           ["code"]: values["code"],
+      //           ["label"]: values["label"]
+      //         }));
+            
+      //     }
+      //   }
+      // }
+    },1000)
+    
+    setTimeout(()=>{
+
+      console.log(userGuideline,globalID)
+    },1000)
+    handleClose();
+  }
+
+  const handleClickOpen = (event, k, code, val) => {
+    setValues((oldValues) => ({
+      ...oldValues,
+      ["label"]:k,
+      ["code"]:code}));
+    setTitle(k);
+    setOpen(true);
+    console.log(val);
+    setGuidelineType(val);
+    setCode(code);
+    console.log(guidelineType)
+  };
+
+  const handleDelete = (e, val) =>{
+    let filteredArray = userGuideline.filter(item => item["id"] !== val)
+    setUserGuideline(filteredArray);
+    
+  };
+  
+  const handleClose = () => {
+    // setValues((oldValues) => ({
+    //   ...oldValues,
+    //   ["label"]:"",
+    //   ["code"]:""
+    // }));
+    setOpen(false);
+  };
+
+
+
+function getGuidelines(){
+      axios
+        .get("http://127.0.0.1:3003//getGuidelines")
+        .then((res) => {
+        let data = res.data;
+        console.log(data);
+          setGuideline(data["guidelines"]);
+          
+        })
+        .catch((err) => {
+          console.log("Error",err);
+        });
+}
+
+
 
   function handleEditorDidMount(editor,monaco){
     editorRef.current=editor;
@@ -102,7 +221,21 @@ function App() {
       <RightSection 
       handleFormChange={handleFormChange} 
       violation={violation}
-      isLoading={isLoading} />
+      isLoading={isLoading}
+      open = {open}
+      title = {title}
+      guideline = {guideline}
+      code = {code}
+      userGuideline = {userGuideline}
+      handleGuidelineEditorDidMount = {handleGuidelineEditorDidMount}
+      handleSetTitle = {handleSetTitle}
+      handleSetCode = {handleSetCode}
+      handleSave = {handleSave}
+      handleClickOpen = {handleClickOpen}
+      handleDelete = {handleDelete}
+      handleClose = {handleClose}
+      getGuidelines = {getGuidelines}
+      />
     </div>
   );
 
