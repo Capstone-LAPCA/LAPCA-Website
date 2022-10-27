@@ -6,6 +6,7 @@ import LeftSection from "./Components/LeftSection";
 
 import "./App.css";
 import "./scrollbar.css"
+import { useDefaultedState } from "beautiful-react-hooks";
 
 function App() {
   
@@ -28,6 +29,7 @@ function App() {
 
   const [language,setLanguage]=useState("py")
   const [defaultCodeTemplate, setDefaultCodeTemplate] = useState(python_default_code);
+  const [isLoading, setIsLoading]=useState("hidden");
 
   function handleEditorDidMount(editor,monaco){
     editorRef.current=editor;
@@ -60,6 +62,7 @@ function App() {
     const code = editorRef.current.getValue();
     console.log(code)
     // setViolation("Loading...")
+    setIsLoading("visible");
     setViolation({compilationErr:false,compilationOutput:"Compiled Successfully",guidelines:[]});
     axios
       .post("http://127.0.0.1:3003//getResults", {
@@ -70,6 +73,8 @@ function App() {
       .then((res) => {
         console.log(res.data);
         setViolation(res.data)
+        setIsLoading("hidden");
+
       })
       .catch((err) => {
         console.log("Error",err);
@@ -94,7 +99,8 @@ function App() {
 
       <RightSection 
       handleFormChange={handleFormChange} 
-      violation={violation} />
+      violation={violation}
+      isLoading={isLoading} />
     </div>
   );
 

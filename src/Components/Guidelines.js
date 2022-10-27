@@ -99,7 +99,20 @@ export default function Guidelines(props){
                 label={item.label}
                 
             />
-            <Button data-id = {item.id} key={item.id} onClick={(event) => handleClickOpen(event, item.id)} variant="contained" style={{ width: "5%", height: "70%", top: "50%", padding: "5px",transform: "translate(-50%, -50%)", background: "none", border: "1px solid aliceblue", borderRadius: "0.8rem"}}>
+            <Button 
+              data-id = {item.id} 
+              key={item.id} 
+              onClick={(event) => handleClickOpen(event, item.id)} 
+              variant="contained" 
+              style={{ width: "5%", 
+                       height: "70%", 
+                       top: "50%", 
+                       padding: "5px",
+                       transform: "translate(-50%, -50%)", 
+                       background: "none", 
+                       border: "1px solid aliceblue", 
+                       borderRadius: "0.8rem"}}>
+                        
               <EditIcon style={{color: 'aliceblue', scale: "70%"}} />
               <b style={{textTransform: "capitalize", paddingRight: "5px"}}>Edit</b>
             </Button>

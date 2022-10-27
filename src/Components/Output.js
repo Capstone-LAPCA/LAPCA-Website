@@ -1,7 +1,9 @@
 // import React from "react";
 // import Paper from "@mui/material/Paper";
 import "./../Styles/RightSection.css"
+import { useGlobalEvent } from "beautiful-react-hooks";
 
+// initalization
 
 
 import * as React from 'react';
@@ -13,7 +15,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
+import { LoadingIcon } from "../img/loadingicon";
 
+const { useState } = React;
 const columns = [
   { id: 'name', label: 'Guideline', minWidth: 170 },
   { id: 'remark', label: 'Remark', minWidth: 100 }
@@ -35,8 +39,13 @@ export default function Output(props) {
   // })
 
   
-  console.log(props.violation)
+  // console.log(props.violation)
+  // const [windowHeight, setWindowHeight] = useState(window.innerHeight);
+  // const onWindowResize = useGlobalEvent("resize");
 
+  // onWindowResize((event: React.SyntheticEvent) => {
+  //   setWindowHeight(window.innerHeight);
+  // });
 
 
 
@@ -56,7 +65,10 @@ export default function Output(props) {
       overflow:"hidden"
     }}
   >
-    <h1>Output</h1>
+    <div className= "output-header">
+      <h1>Output</h1>
+      <LoadingIcon isLoading={props.isLoading}/>
+    </div>
     {props.violation["compilationErr"]===false &&
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">

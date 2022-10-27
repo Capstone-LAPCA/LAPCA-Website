@@ -46,3 +46,15 @@
 .css-1t1j96h-MuiPaper-root-MuiDialog-paper{
   border: "2px solid white" !important;
 }
+
+.output-header{
+  display: flex;
+  flex-direction: row;
+}
+
+.loading-icon{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}

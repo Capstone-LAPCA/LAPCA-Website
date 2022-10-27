@@ -9,7 +9,7 @@ export default function RightSection(props){
     return(
     <div className="right-section">
         <Guidelines handleFormChange={props.handleFormChange}/>
-        <Output violation={props.violation}/>
+        <Output violation={props.violation} isLoading={props.isLoading}/>
     </div>
     );
 }

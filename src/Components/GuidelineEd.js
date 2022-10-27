@@ -9,6 +9,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Paper from "@mui/material/Paper";
 import Editor from "@monaco-editor/react";
 import '../Styles/RightSection.css'
+
 export default function GuidelineEd(props) {
     
     
