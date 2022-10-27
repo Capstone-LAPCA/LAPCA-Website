@@ -10,26 +10,15 @@
   color: #b5c0d0 !important;
 }
 
-
-
-/* 
-.guideline-heading{
-  color: #b5c0d0;
-  display: flex;
-  font-size: 1.5em;
-  margin-block-start: 0.83em;
-  margin-block-end: 0.83em;
-  margin-inline-start: 0px;
-  margin-inline-end: 0px;
-  font-weight: bold;
-  margin-left: 0.5em;
-  margin-bottom: 0.2em;
-} */
-
-
 .guideline-list{
   display: grid;
   grid-template-columns: 8fr 1fr;
+}
+
+.guideline-list-custom{
+  display: grid;
+  grid-template-columns: 6fr 1fr 1fr;
+  gap: 15px;
 }
 
 .guideline-header{

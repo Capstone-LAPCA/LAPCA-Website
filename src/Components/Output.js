@@ -1,11 +1,7 @@
 // import React from "react";
 // import Paper from "@mui/material/Paper";
 import "./../Styles/RightSection.css"
-import { useGlobalEvent } from "beautiful-react-hooks";
-
-// initalization
-
-
+// import { useGlobalEvent } from "beautiful-react-hooks";
 import * as React from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';

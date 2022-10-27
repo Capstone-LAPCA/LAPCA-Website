@@ -11,16 +11,59 @@ import { ConstructionOutlined } from "@mui/icons-material";
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
 import GuidelineEd from "./GuidelineEd";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function Guidelines(props){
     const [open, setOpen] = React.useState(false);
     const [title, setTitle] = React.useState("");
+    const [add, setAdd] = React.useState(true);
+    const [guideline, setGuideline] = useState([]);
+    const [code, setCode] = useState("");
+    const [values, setValues] = useState(
+                        {"id":"",
+                        "label":"",
+                        "code":""});
+    const [userGuideline, setUserGuideline] = useState([]);
+    const guidelineEditorRef = React.useRef(null)
+    
 
-    const handleClickOpen = (event, k) => {
+    function handleEditorDidMount(editor,monaco){
+      guidelineEditorRef.current=editor;
+    }
+
+    const handleSetTitle = (event) =>{
+      setTitle(event.target.value)
+      
+      setValues((oldValues) => ({
+        ...oldValues,
+        ["label"]: event.target.value,
+      }));
+    }
+
+    const handleSetCode = (event) =>{
+      const guidelineCode = guidelineEditorRef.current.getValue();
+      setCode(guidelineCode)
+      
+      setValues((oldValues) => ({
+        ...oldValues,
+        ["code"]: guidelineCode,
+      }));
+    }
+
+    const handleSave = (e) =>{
+      let new_guideline = values;
+      setUserGuideline([...userGuideline, new_guideline]);
+      handleClose();
+    }
+
+    const handleClickOpen = (event, k, code) => {
       setTitle(k);
       setOpen(true);
+      setAdd(true);
+      setCode(code);
     };
-  
+
+
     const handleClose = () => {
       setOpen(false);
     };
@@ -33,14 +76,15 @@ export default function Guidelines(props){
         },
         });
 
-    const [guideline, setGuideline] = useState([]);
     
     useEffect(()=>{
         axios
         .get("http://127.0.0.1:3003//getGuidelines")
         .then((res) => {
         let data = res.data;
+        console.log(data);
           setGuideline(data["guidelines"]);
+          
         })
         .catch((err) => {
           console.log("Error",err);
@@ -63,10 +107,21 @@ export default function Guidelines(props){
             
             }}
         >
-          <GuidelineEd open = {open} handleClose = {handleClose} title={title}/>
+          <GuidelineEd open = {open} 
+                       handleClose = {handleClose} 
+                       title={title} 
+                       add={add}
+                       userGuideline = {userGuideline}
+                       code = {code}
+                       values = {values}
+                       handleSave = {handleSave}
+                       handleSetTitle = {handleSetTitle}
+                       handleSetCode = {handleSetCode}
+                       handleEditorDidMount = {handleEditorDidMount}/>
           <div className="guideline-header">
             <h1>Guidelines</h1>
             <Button variant="contained" 
+              onClick={(event) => handleClickOpen(event, "New_guideline.lapx")}
               style={{ 
                       height: "40%", 
                       top: "50%", 
@@ -82,47 +137,102 @@ export default function Guidelines(props){
             
             <div className="form-group">
 
-            <FormGroup  sx={{ alignContent: "left"}}>
+              <FormGroup  sx={{ alignContent: "left"}}>
 
-            {guideline.map(item=>{
-                return(
-                  <div className="guideline-list">
-                    <FormControlLabel
-                    style = {{minWidth: "400px"}} 
-                    control={
-                    <Checkbox
-                        onChange={props.handleFormChange}
-                        sx={{color: 'aliceblue'}}
-                        id={item.id}
-                    />
+                {guideline.map(item=>{
+                    return(
+                      <div className="guideline-list">
+                        <FormControlLabel
+                        style = {{minWidth: "400px"}} 
+                        control={
+                          <Checkbox
+                              onChange={props.handleFormChange}
+                              sx={{color: 'aliceblue'}}
+                              id={item.id}
+                          />
+                        }
+                        label={item.label}
+                        />
+                        <Button 
+                          data-id = {item.id} 
+                          key={item.id} 
+                          onClick={(event) => handleClickOpen(event, item.label, item.lapx_code)} 
+                          variant="contained" 
+                          style={{ width: "5%", 
+                                  height: "70%", 
+                                  top: "50%", 
+                                  padding: "5px",
+                                  transform: "translate(-50%, -50%)", 
+                                  background: "none", 
+                                  border: "1px solid aliceblue", 
+                                  borderRadius: "0.8rem"}}>
+                                  
+                          <EditIcon style={{color: 'aliceblue', scale: "70%"}} />
+                          <b style={{textTransform: "capitalize", paddingRight: "5px"}}>Edit</b>
+                        </Button>
+                      </div>
+                    )
+                  })
+
                 }
-                label={item.label}
-                
-            />
-            <Button 
-              data-id = {item.id} 
-              key={item.id} 
-              onClick={(event) => handleClickOpen(event, item.id)} 
-              variant="contained" 
-              style={{ width: "5%", 
-                       height: "70%", 
-                       top: "50%", 
-                       padding: "5px",
-                       transform: "translate(-50%, -50%)", 
-                       background: "none", 
-                       border: "1px solid aliceblue", 
-                       borderRadius: "0.8rem"}}>
-                        
-              <EditIcon style={{color: 'aliceblue', scale: "70%"}} />
-              <b style={{textTransform: "capitalize", paddingRight: "5px"}}>Edit</b>
-            </Button>
-            </div>
-                )
-            })
 
-            }
+                <p>Custom Guidelines</p>
+                {userGuideline.map(item=>{
+                    return(
+                      <div className="guideline-list-custom">
+                        <FormControlLabel
+                        style = {{minWidth: "300px"}} 
+                        control={
+                          <Checkbox
+                              onChange={props.handleFormChange}
+                              sx={{color: 'aliceblue'}}
+                              id={item.id}
+                          />
+                        }
+                        label={item.label}
+                        />
+                        <Button 
+                          data-id = {item.id} 
+                          key={item.id} 
+                          onClick={(event) => handleClickOpen(event, item.label, item.code)} 
+                          variant="contained" 
+                          style={{ width: "5%", 
+                                  height: "70%", 
+                                  top: "50%", 
+                                  padding: "5px",
+                                  transform: "translate(-50%, -50%)", 
+                                  background: "none", 
+                                  border: "1px solid aliceblue", 
+                                  borderRadius: "0.8rem"}}>
+                                  
+                          <EditIcon style={{color: 'aliceblue', scale: "70%"}} />
+                          <b style={{textTransform: "capitalize", paddingRight: "5px"}}>Edit</b>
+                        </Button>
+
+                        <Button 
+                          data-id = {item.id} 
+                          key={item.id} 
+                          onClick={(event) => handleClickOpen(event, item.label, item.code)} 
+                          variant="contained" 
+                          style={{ width: "8%", 
+                                  height: "70%", 
+                                  top: "50%", 
+                                  padding: "5px",
+                                  transform: "translate(-50%, -50%)", 
+                                  background: "none", 
+                                  border: "1px solid aliceblue", 
+                                  borderRadius: "0.8rem"}}>
+                                  
+                          <DeleteIcon style={{color: 'aliceblue', scale: "70%", paddingLeft: "10px"}} />
+                          <b style={{textTransform: "capitalize", paddingRight: "15px"}}>Delete</b>
+                        </Button>
+                      </div>
+                    )
+                  })
+
+                }
             
-            </FormGroup>
+              </FormGroup>
             
             </div>
     

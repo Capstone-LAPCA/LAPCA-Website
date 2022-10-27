@@ -6,7 +6,7 @@ import LeftSection from "./Components/LeftSection";
 
 import "./App.css";
 import "./scrollbar.css"
-import { useDefaultedState } from "beautiful-react-hooks";
+
 
 function App() {
   
@@ -23,6 +23,7 @@ function App() {
     "var_greater_than_31.lapx": false,
   });
 
+  const [formUser, setFormUserResult] = useState([]);
   const python_default_code = `print("Hello World")`;
   const c_default_code =`#include <stdio.h>\nint main(){\n\tprintf("Hello World");\n\treturn 0;\n}`;
   const java_default_code =`class TestProgram{\n\tpublic static void main(String[] args){\n\t\tSystem.out.println("Hello World");\n\t}\n}`;
@@ -68,7 +69,8 @@ function App() {
       .post("http://127.0.0.1:3003//getResults", {
         code: code,
         language: language,
-        form: formResult,
+        predefined_guidelines: formResult,
+        custom_guidelines: []
       })
       .then((res) => {
         console.log(res.data);
