@@ -33,7 +33,6 @@ export default function Guidelines(props){
 
     const handleSetTitle = (event) =>{
       setTitle(event.target.value)
-      
       setValues((oldValues) => ({
         ...oldValues,
         ["label"]: event.target.value,
@@ -63,8 +62,15 @@ export default function Guidelines(props){
       setCode(code);
     };
 
-
+    const handleDelete = (e, val) =>{
+      let filteredArray = userGuideline.filter(item => item["label"] !== val)
+      setUserGuideline(filteredArray);
+    };
+    
     const handleClose = () => {
+      setValues({"id":"",
+      "label":"",
+      "code":""});
       setOpen(false);
     };
 
@@ -212,7 +218,7 @@ export default function Guidelines(props){
                         <Button 
                           data-id = {item.id} 
                           key={item.id} 
-                          onClick={(event) => handleClickOpen(event, item.label, item.code)} 
+                          onClick={(event) => handleDelete(event, item.label)} 
                           variant="contained" 
                           style={{ width: "8%", 
                                   height: "70%", 
