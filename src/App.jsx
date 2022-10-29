@@ -251,8 +251,6 @@ function getGuidelines(){
   function sendCode() {
     console.log("clicked")
     const code = editorRef.current.getValue();
-    const custom_guidelines={customFormResult}
-    console.log(custom_guidelines)
     // setViolation("Loading...")
     setIsLoading("visible");
     setViolation({compilationErr:false,compilationOutput:"Compiled Successfully",guidelines:[]});
@@ -261,7 +259,7 @@ function getGuidelines(){
         code: code,
         language: language,
         predefined_guidelines: formResult,
-        custom_guidelines: custom_guidelines
+        custom_guidelines: customFormResult
       })
       .then((res) => {
         console.log(res.data);

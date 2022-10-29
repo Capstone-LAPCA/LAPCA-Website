@@ -90,11 +90,13 @@ export default function Output(props) {
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.remark}>
                     {columns.map((column) => {
                       const value = row[column.id];
+                      //                         <TableCell key={column.id} align={column.align} style={{color:"white"}}>
+                      // {column.format && typeof value === 'number'
+                      // ? column.format(value)
+                      // : value}
                       return (
-                        <TableCell key={column.id} align={column.align} style={{color:"white"}}>
-                          {column.format && typeof value === 'number'
-                            ? column.format(value)
-                            : value}
+                        <TableCell key={column.id} align={column.align} style={{color:"white",whiteSpace: "pre-line"}}>
+                          {value}
                         </TableCell>
                       );
                     })}
