@@ -33,22 +33,38 @@ function App() {
   const [defaultCodeTemplate, setDefaultCodeTemplate] = useState(python_default_code);
   const [isLoading, setIsLoading]=useState("hidden");
 
+  function handleEditorDidMount(editor,monaco){
+    editorRef.current=editor;
+  }
+
+  const [customCount,setCustomCount]=useState(0)
+
   const [open, setOpen] = React.useState(false);
   const [title, setTitle] = React.useState("");
   const [guideline, setGuideline] = useState([]);
   const [code, setCode] = useState("");
   const [values, setValues] = useState(
-                      {"id":0,
+                      {"id":customCount,
                       "label":"",
                       "code":""});
   var [globalID, setGlobalId] = useState(0);
   const [userGuideline, setUserGuideline] = useState([]);
   const [guidelineType, setGuidelineType] = useState(["predefined"]);
-  const guidelineEditorRef = React.useRef(null)
+  const [customOpen,setCustomOpen]=React.useState(false)
 
+  const guidelineEditorRef = React.useRef(null)
+  const customGuidelineEditorRef=React.useRef(null)
+
+  
   function handleGuidelineEditorDidMount(editor,monaco){
     guidelineEditorRef.current=editor;
   }
+
+  function handleCustomGuidelineEditorDidMount(editor,monaco){
+    customGuidelineEditorRef.current=editor;
+  }
+
+
 
   const handleSetTitle = (event) =>{
     setTitle(event.target.value)
@@ -67,47 +83,43 @@ function App() {
       }));
   }
 
-  const handleSave = (e) =>{
-    setTimeout(()=>{
-      if(guidelineType[0] === "predefined"){
-        setTimeout(()=>{
-          setValues((oldValues) => ({
-            ...oldValues,
-            ["id"]: globalID,
-          }));
-          setTimeout(() =>{
-            let a = globalID + 1;
-            setGlobalId(a) 
-
-          },100)
-        },1000);
-        let new_guideline = values;
-        setUserGuideline([...userGuideline, new_guideline]);
-      }
-      // if(guidelineType[0] === "custom"){
-      //   for(let i = 0; i<userGuideline.length; i++){
-      //     if(userGuideline[i]["id"] === guidelineType[1]){
-      //         setUserGuideline((oldValues)=>({
-      //           ...oldValues[i],
-      //           ["code"]: values["code"],
-      //           ["label"]: values["label"]
-      //         }));
-            
-      //     }
-      //   }
-      // }
-    },1000)
+  const handleSetCustomCode = (event) =>{
+    const guidelineCode = customGuidelineEditorRef.current.getValue();
+    setCode(guidelineCode)
+      setValues((oldValues) => ({
+        ...oldValues,
+        ["code"]: guidelineCode,
+      }));
     
-    setTimeout(()=>{
+  }
 
-      console.log(userGuideline,globalID)
-    },1000)
+
+
+  const handleSave = (e) =>{
+    console.log(values)
+    let new_guideline = values;
+    // setUserGuideline([...userGuideline, new_guideline]);
+    setUserGuideline((old)=>([...old,new_guideline]))
+    setCustomCount((oldValue)=>(oldValue+1));
     handleClose();
+    console.log("save",userGuideline)
+  }
+
+  const handleCustomSave = (e)=>{
+    // console.log(event)
+    let new_guideline = values;
+    console.log(e.target.value)
+    // let filteredArray = userGuideline.filter(item => item["id"] !== val)
+    // setUserGuideline([...userGuideline, new_guideline]);
+    setUserGuideline((old)=>([...old,new_guideline]))
+    handleCustomClose();
+    console.log("customSave",userGuideline)
   }
 
   const handleClickOpen = (event, k, code, val) => {
     setValues((oldValues) => ({
       ...oldValues,
+      ["id"]:customCount,
       ["label"]:k,
       ["code"]:code}));
     setTitle(k);
@@ -118,7 +130,21 @@ function App() {
     console.log(guidelineType)
   };
 
+  const handleCustomClickOpen = (event, k, code, val) => {
+    setValues((oldValues) => ({
+      ...oldValues,
+      ["label"]:k,
+      ["code"]:code}));
+    setTitle(k);
+    setCustomOpen(true);
+    console.log(val);
+    // setGuidelineType(val);
+    setCode(code);
+    console.log(guidelineType)
+  };
+
   const handleDelete = (e, val) =>{
+    // console.log("Yo",val)
     let filteredArray = userGuideline.filter(item => item["id"] !== val)
     setUserGuideline(filteredArray);
     
@@ -133,6 +159,14 @@ function App() {
     setOpen(false);
   };
 
+  const handleCustomClose = () => {
+    // setValues((oldValues) => ({
+    //   ...oldValues,
+    //   ["label"]:"",
+    //   ["code"]:""
+    // }));
+    setCustomOpen(false);
+  };
 
 
 function getGuidelines(){
@@ -150,10 +184,6 @@ function getGuidelines(){
 }
 
 
-
-  function handleEditorDidMount(editor,monaco){
-    editorRef.current=editor;
-  }
   const handleLanguageChange = (event)=>{
       setLanguage(event.target.value)
       switch (event.target.value) {
@@ -181,6 +211,7 @@ function getGuidelines(){
     console.log("clicked")
     const code = editorRef.current.getValue();
     console.log(code)
+    console.log(userGuideline)
     // setViolation("Loading...")
     setIsLoading("visible");
     setViolation({compilationErr:false,compilationOutput:"Compiled Successfully",guidelines:[]});
@@ -228,6 +259,7 @@ function getGuidelines(){
       code = {code}
       userGuideline = {userGuideline}
       handleGuidelineEditorDidMount = {handleGuidelineEditorDidMount}
+      handleCustomGuidelineEditorDidMount={handleCustomGuidelineEditorDidMount}
       handleSetTitle = {handleSetTitle}
       handleSetCode = {handleSetCode}
       handleSave = {handleSave}
@@ -235,6 +267,11 @@ function getGuidelines(){
       handleDelete = {handleDelete}
       handleClose = {handleClose}
       getGuidelines = {getGuidelines}
+      handleSetCustomCode={handleSetCustomCode}
+      handleCustomSave={handleCustomSave}
+      handleCustomClickOpen={handleCustomClickOpen}
+      customOpen={customOpen}
+      handleCustomClose={handleCustomClose}
       />
     </div>
   );

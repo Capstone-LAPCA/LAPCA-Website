@@ -15,6 +15,7 @@ export default function RightSection(props){
         code = {props.code}
         userGuideline = {props.userGuideline}
         handleGuidelineEditorDidMount = {props.handleGuidelineEditorDidMount}
+        handleCustomGuidelineEditorDidMount={props.handleCustomGuidelineEditorDidMount}
         handleSetTitle = {props.handleSetTitle}
         handleSetCode = {props.handleSetCode}
         handleSave = {props.handleSave}
@@ -22,8 +23,15 @@ export default function RightSection(props){
         handleDelete = {props.handleDelete}
         handleClose = {props.handleClose}
         getGuidelines = {props.getGuidelines}
-        handleCustomSave = {props.handleCustomSave}/>
-        <Output violation={props.violation} isLoading={props.isLoading}/>
+        handleCustomSave = {props.handleCustomSave}
+        handleCustomClose={props.handleCustomClose}
+        handleSetCustomCode={props.handleSetCustomCode}
+        handleCustomClickOpen={props.handleCustomClickOpen}
+        customOpen={props.customOpen}
+        />
+        <Output violation={props.violation} isLoading={props.isLoading}
+        
+        />
     </div>
     );
 }

@@ -25,7 +25,7 @@ export default function GuidelineEd(props) {
                   borderRight: "1px solid aliceblue",
                   color: "white",
                   width: "auto"}}>
-            <span> A Guideline Name</span>
+            <span>B Guideline Name</span>
             <BootstrapInput fullWidth
                             // readOnly = {false}
                             onChange = {(event) => props.handleSetTitle(event)}
@@ -45,8 +45,8 @@ export default function GuidelineEd(props) {
                 value={props.code}
                 theme="vs-dark"
                 minimap= {{ enabled: false }}
-                onChange={(event) => props.handleSetCode(event)}
-                onMount={props.handleGuidelineEditorDidMount}
+                onChange={(event) => props.handleSetCodeCustom(event)}
+                onMount={props.handleCustomGuidelineEditorDidMount}
             />
         </Paper>
         </DialogContent>
