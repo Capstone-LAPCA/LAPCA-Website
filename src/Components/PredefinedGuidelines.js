@@ -25,15 +25,6 @@ import Editor from "@monaco-editor/react";
 
 
 export default function PredefinedGuidelines(props){
-    const [guidelineType, setGuidelineType] = React.useState("predefined");
-    const theme = createTheme({
-        palette: {
-            primary: {
-            main: '#1976d2',
-            },
-        },
-        });
-
     
     useEffect(()=>{
         props.getGuidelines();

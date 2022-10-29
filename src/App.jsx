@@ -14,6 +14,7 @@ function App() {
   const [violation,setViolation]=useState({compilationErr:false,compilationOutput:"Compiled Successfully",guidelines:[]})
   const [formResult, setFormResult] = useState([]);
   const [customFormResult,setCustomFormResult]=useState([]);
+  const [targetId,setTargetId]=useState(0)
   // const [formUser, setFormUserResult] = useState([]);
 
   const python_default_code = `print("Hello World")`;
@@ -35,12 +36,10 @@ function App() {
   const [guideline, setGuideline] = useState([]);
   const [code, setCode] = useState("");
   const [values, setValues] = useState(
-                      {"id":customCount,
+                      {"id":0,
+                      "checked":false,
                       "label":"",
                       "code":""});
-  var [globalID, setGlobalId] = useState(0);
-  const [userGuideline, setUserGuideline] = useState([]);
-  const [guidelineType, setGuidelineType] = useState(["predefined"]);
   const [customOpen,setCustomOpen]=React.useState(false)
 
   const guidelineEditorRef = React.useRef(null)
@@ -87,85 +86,83 @@ function App() {
 
 
   const handleSave = (e) =>{
-    console.log("c",values)
     let new_guideline = values;
-    setUserGuideline((old)=>([...old,new_guideline]))
-    setCustomCount((oldValue)=>(userGuideline.length));
-
-    let miniForm=values
-    miniForm["checked"]=false
+    new_guideline["id"]=customCount
     setCustomFormResult((old)=>([...old,new_guideline]))
+    setCustomCount((oldValue)=>(oldValue+1));
     handleClose();
     console.log(customFormResult)
-    
-    
-    // console.log("save",userGuideline)
-    // setUserGuideline([...userGuideline, new_guideline]);
   }
 
   const handleCustomSave = (e)=>{
-    // console.log(event)
-    let new_guideline = values;
-    console.log(e.target.value)
-    // let filteredArray = userGuideline.filter(item => item["label"] !== values["label"])
-    // setUserGuideline([...userGuideline, new_guideline]);
+    let g=[]
+    let new_obj={}
+    for (let i=0;i<customFormResult.length;i++){
+      if (customFormResult[i]["id"]==targetId){
+        new_obj={}
+        new_obj["id"]=i
+        new_obj["checked"]=customFormResult[i]["checked"]
+        new_obj["label"]=values["label"]
+        new_obj["code"]=values["code"]
+      }
+      else{
+        new_obj={}
+        new_obj["id"]=i
+        new_obj["checked"]=customFormResult[i]["checked"]
+        new_obj["label"]=customFormResult[i]["label"]
+        new_obj["code"]=customFormResult[i]["code"]
+      }
+      g.push(new_obj)
+    }
 
-    let miniForm=values
-    miniForm["checked"]=false
-    setCustomFormResult((old)=>([...old,new_guideline]))
-    setCustomCount((oldValue)=>(userGuideline.length));
+    setCustomFormResult(g)
     handleCustomClose();
     console.log(customFormResult)
   }
 
-  const handleClickOpen = (event, k, code, val) => {
-    setValues((oldValues) => ({
-      ...oldValues,
-      ["id"]:customCount,
-      ["label"]:k,
-      ["code"]:code}));
-    setTitle(k);
-    setOpen(true);
-    console.log(val);
-    setGuidelineType(val);
-    setCode(code);
-    console.log(guidelineType)
-  };
-
-  const handleCustomClickOpen = (event, k, code, val) => {
-    setValues((oldValues) => ({
-      ...oldValues,
-      ["id"]:customCount,
-      ["label"]:k,
-      ["code"]:code}));
-    setTitle(k);
-    setCustomOpen(true);
-    console.log(val);
-    // setGuidelineType(val);
-    setCode(code);
-    console.log(guidelineType)
-  };
 
   const handleDelete = (e, val) =>{
-    // console.log("Yo",val)
-    // let filteredArray = userGuideline.filter(item => item["id"] !== val)
-    // setUserGuideline(filteredArray);
+
     let g=[]
     let new_obj={}
-    for (let i=0;i<userGuideline.length;i++){
-      if (userGuideline[i]["id"]!==val){
+    for (let i=0;i<customFormResult.length;i++){
+      if (customFormResult[i]["id"]!==val){
         new_obj={}
         new_obj["id"]=i
-        new_obj["label"]=userGuideline[i]["label"]
-        new_obj["code"]=userGuideline[i]["code"]
+        new_obj["checked"]=customFormResult[i]["checked"]
+        new_obj["label"]=customFormResult[i]["label"]
+        new_obj["code"]=customFormResult[i]["code"]
         g.push(new_obj)
       }
     }
-    console.log(g)
-    setUserGuideline(g)
-    // let newList = customFormResult.filter(item => item["id"] !== val)
     setCustomFormResult(g)
+    setCustomCount((oldValue)=>(oldValue-1))
+    console.log(customFormResult)
   };
+
+  const handleClickOpen = (event, label, code, id) => {
+    setValues((oldValues) => ({
+      ...oldValues,
+      ["label"]:label,
+      ["code"]:code}));
+    setTargetId(id);
+    setTitle(label);
+    setOpen(true);
+    setCode(code);
+  };
+
+  const handleCustomClickOpen = (event, label, code, id) => {
+    setValues((oldValues) => ({
+      ...oldValues,
+      ["label"]:label,
+      ["code"]:code}));
+    setTargetId(id);
+    setTitle(label);
+    setCustomOpen(true);
+    setCode(code);
+  };
+
+
   
   const handleClose = () => {
     setOpen(false);
@@ -254,8 +251,8 @@ function getGuidelines(){
   function sendCode() {
     console.log("clicked")
     const code = editorRef.current.getValue();
-    console.log(code)
-    console.log(userGuideline)
+    const custom_guidelines={customFormResult}
+    console.log(custom_guidelines)
     // setViolation("Loading...")
     setIsLoading("visible");
     setViolation({compilationErr:false,compilationOutput:"Compiled Successfully",guidelines:[]});
@@ -264,7 +261,7 @@ function getGuidelines(){
         code: code,
         language: language,
         predefined_guidelines: formResult,
-        custom_guidelines: []
+        custom_guidelines: custom_guidelines
       })
       .then((res) => {
         console.log(res.data);
@@ -301,7 +298,7 @@ function getGuidelines(){
       title = {title}
       guideline = {guideline}
       code = {code}
-      userGuideline = {userGuideline}
+      customFormResult = {customFormResult}
       handleGuidelineEditorDidMount = {handleGuidelineEditorDidMount}
       handleCustomGuidelineEditorDidMount={handleCustomGuidelineEditorDidMount}
       handleSetTitle = {handleSetTitle}

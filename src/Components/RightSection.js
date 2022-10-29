@@ -13,7 +13,7 @@ export default function RightSection(props){
         title = {props.title}
         guideline = {props.guideline}
         code = {props.code}
-        userGuideline = {props.userGuideline}
+        customFormResult = {props.customFormResult}
         handleGuidelineEditorDidMount = {props.handleGuidelineEditorDidMount}
         handleCustomGuidelineEditorDidMount={props.handleCustomGuidelineEditorDidMount}
         handleSetTitle = {props.handleSetTitle}

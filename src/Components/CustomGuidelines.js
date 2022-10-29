@@ -70,7 +70,7 @@ export default function PredefinedGuidelines(props){
                 theme="vs-dark"
                 minimap= {{ enabled: false }}
                 onChange={(event) => props.handleSetCustomCode(event)}
-                onMount={props.handleGuidelineEditorDidMount}
+                onMount={props.handleCustomGuidelineEditorDidMount}
             />
         </Paper>
         </DialogContent>
@@ -80,7 +80,7 @@ export default function PredefinedGuidelines(props){
                   borderLeft: "1px solid aliceblue", 
                   borderRight: "1px solid aliceblue"}}>
           <Button 
-            onClick={props.handleClose}
+            onClick={props.handleCustomClose}
             style={{color: 'aliceblue',
             width: "5%", height: "70%", }}>
             Cancel
@@ -96,7 +96,7 @@ export default function PredefinedGuidelines(props){
         <p>Custom Guidelines</p>
         <div className="form-group">
             <FormGroup  sx={{ alignContent: "left"}}>
-            {props.userGuideline.map(item=>{
+            {props.customFormResult.map(item=>{
                     return(
                       <div className="guideline-list-custom">
                         <FormControlLabel
@@ -113,7 +113,7 @@ export default function PredefinedGuidelines(props){
                         <Button 
                           data-id = {item.id} 
                           key={item.id} 
-                          onClick={(event) => props.handleCustomClickOpen(event, item.label, item.code, ["custom",item.id])} 
+                          onClick={(event) => props.handleCustomClickOpen(event, item.label, item.code, item.id)} 
                           variant="contained" 
                           style={{ width: "5%", 
                                   height: "70%", 

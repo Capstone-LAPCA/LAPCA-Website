@@ -38,7 +38,7 @@ export default function Guidelines(props){
       
       />
       <CustomGuidelines
-      userGuideline={props.userGuideline}
+      customFormResult={props.customFormResult}
       handleCustomClickOpen = {props.handleCustomClickOpen}
       handleCustomGuidelineEditorDidMount={props.handleCustomGuidelineEditorDidMount}
       customOpen={props.customOpen}
