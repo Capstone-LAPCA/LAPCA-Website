@@ -103,7 +103,7 @@ export default function PredefinedGuidelines(props){
                         style = {{minWidth: "300px"}} 
                         control={
                           <Checkbox
-                              onChange={props.handleFormChange}
+                              onChange={props.handleCustomFormChange}
                               sx={{color: 'aliceblue'}}
                               id={item.id}
                           />

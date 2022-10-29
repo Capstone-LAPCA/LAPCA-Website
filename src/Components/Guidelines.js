@@ -49,6 +49,7 @@ export default function Guidelines(props){
       handleCustomSave = {props.handleCustomSave}
       handleDelete={props.handleDelete}
       handleCustomClose={props.handleCustomClose}
+      handleCustomFormChange={props.handleCustomFormChange}
       />
       </div>
     );

@@ -12,17 +12,8 @@ function App() {
   
   const editorRef = useRef(null)
   const [violation,setViolation]=useState({compilationErr:false,compilationOutput:"Compiled Successfully",guidelines:[]})
-  const [formResult, setFormResult] = useState({
-    "Recursion.lapx": false,
-    "Assign_in_loop.lapx": false,
-    "Continue.lapx": false,
-    "Unused_Functions.lapx": false,
-    "One_var_decl.lapx": false,
-    "Binary_Search_Iterative.lapx": false,
-    "Dead_Code.lapx": false,
-    "var_greater_than_31.lapx": false,
-  });
-
+  const [formResult, setFormResult] = useState([]);
+  const [customFormResult,setCustomFormResult]=useState([]);
   // const [formUser, setFormUserResult] = useState([]);
 
   const python_default_code = `print("Hello World")`;
@@ -96,24 +87,35 @@ function App() {
 
 
   const handleSave = (e) =>{
-    console.log(values)
+    console.log("c",values)
     let new_guideline = values;
-    // setUserGuideline([...userGuideline, new_guideline]);
     setUserGuideline((old)=>([...old,new_guideline]))
-    setCustomCount((oldValue)=>(oldValue+1));
+    setCustomCount((oldValue)=>(userGuideline.length));
+
+    let miniForm=values
+    miniForm["checked"]=false
+    setCustomFormResult((old)=>([...old,new_guideline]))
     handleClose();
-    console.log("save",userGuideline)
+    console.log(customFormResult)
+    
+    
+    // console.log("save",userGuideline)
+    // setUserGuideline([...userGuideline, new_guideline]);
   }
 
   const handleCustomSave = (e)=>{
     // console.log(event)
     let new_guideline = values;
     console.log(e.target.value)
-    // let filteredArray = userGuideline.filter(item => item["id"] !== val)
+    // let filteredArray = userGuideline.filter(item => item["label"] !== values["label"])
     // setUserGuideline([...userGuideline, new_guideline]);
-    setUserGuideline((old)=>([...old,new_guideline]))
+
+    let miniForm=values
+    miniForm["checked"]=false
+    setCustomFormResult((old)=>([...old,new_guideline]))
+    setCustomCount((oldValue)=>(userGuideline.length));
     handleCustomClose();
-    console.log("customSave",userGuideline)
+    console.log(customFormResult)
   }
 
   const handleClickOpen = (event, k, code, val) => {
@@ -133,6 +135,7 @@ function App() {
   const handleCustomClickOpen = (event, k, code, val) => {
     setValues((oldValues) => ({
       ...oldValues,
+      ["id"]:customCount,
       ["label"]:k,
       ["code"]:code}));
     setTitle(k);
@@ -145,26 +148,30 @@ function App() {
 
   const handleDelete = (e, val) =>{
     // console.log("Yo",val)
-    let filteredArray = userGuideline.filter(item => item["id"] !== val)
-    setUserGuideline(filteredArray);
-    
+    // let filteredArray = userGuideline.filter(item => item["id"] !== val)
+    // setUserGuideline(filteredArray);
+    let g=[]
+    let new_obj={}
+    for (let i=0;i<userGuideline.length;i++){
+      if (userGuideline[i]["id"]!==val){
+        new_obj={}
+        new_obj["id"]=i
+        new_obj["label"]=userGuideline[i]["label"]
+        new_obj["code"]=userGuideline[i]["code"]
+        g.push(new_obj)
+      }
+    }
+    console.log(g)
+    setUserGuideline(g)
+    // let newList = customFormResult.filter(item => item["id"] !== val)
+    setCustomFormResult(g)
   };
   
   const handleClose = () => {
-    // setValues((oldValues) => ({
-    //   ...oldValues,
-    //   ["label"]:"",
-    //   ["code"]:""
-    // }));
     setOpen(false);
   };
 
   const handleCustomClose = () => {
-    // setValues((oldValues) => ({
-    //   ...oldValues,
-    //   ["label"]:"",
-    //   ["code"]:""
-    // }));
     setCustomOpen(false);
   };
 
@@ -174,9 +181,21 @@ function getGuidelines(){
         .get("http://127.0.0.1:3003//getGuidelines")
         .then((res) => {
         let data = res.data;
-        console.log(data);
-          setGuideline(data["guidelines"]);
+        setGuideline(data["guidelines"]);
+        let obj=[]
+        
+        for (var i = 0; i < data["guidelines"].length; i++){
           
+            let d={}
+            // console.log(data["guidelines"][i]["id"])
+            // d[data["guidelines"][i]["id"]]=false
+            d["id"]=data["guidelines"][i]["id"]
+            d["checked"]=false
+            obj.push(d)
+
+        }
+        setFormResult(obj)
+       
         })
         .catch((err) => {
           console.log("Error",err);
@@ -200,11 +219,36 @@ function getGuidelines(){
             setDefaultCodeTemplate(python_default_code);
         }
   }
+
   function handleFormChange(event) {
     let newFormResult = formResult;
-    newFormResult[event.target.id] = event.target.checked;
+    for(var i=0;i<formResult.length;i++){
+      if (newFormResult[i]["id"]===event.target.id){
+        newFormResult[i]["checked"]=event.target.checked
+      }
+    }
     setFormResult(newFormResult);
-    console.log(formResult);
+    // newFormResult[event.target.id] = event.target.checked;
+  }
+  function handleCustomFormChange(event) {
+    let newCustomFormResult = customFormResult;
+    let g=[]
+    let i=0
+    for (let ele of newCustomFormResult){
+        if (i==event.target.id){
+          ele["checked"]=event.target.checked
+        }
+        i+=1
+        g.push(ele)
+    }
+
+    // for(var i=0;i<newCustomFormResult.length;i++){
+    //   if (newCustomFormResult[i]["id"]===event.target.id){
+    //     newCustomFormResult[i]["checked"]=event.target.checked
+    //   }
+    // }
+    setCustomFormResult(g);
+    console.log("Form change",g)
   }
 
   function sendCode() {
@@ -272,6 +316,7 @@ function getGuidelines(){
       handleCustomClickOpen={handleCustomClickOpen}
       customOpen={customOpen}
       handleCustomClose={handleCustomClose}
+      handleCustomFormChange={handleCustomFormChange}
       />
     </div>
   );

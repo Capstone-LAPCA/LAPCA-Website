@@ -28,6 +28,7 @@ export default function RightSection(props){
         handleSetCustomCode={props.handleSetCustomCode}
         handleCustomClickOpen={props.handleCustomClickOpen}
         customOpen={props.customOpen}
+        handleCustomFormChange={props.handleCustomFormChange}
         />
         <Output violation={props.violation} isLoading={props.isLoading}
         
