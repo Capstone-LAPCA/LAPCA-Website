@@ -19,16 +19,19 @@ export default function CodeEditor(props){
         },
       });
       
-
+    function getLanguage(){
+        if(props.language === "py") return "python";
+        return props.language.toLowerCase();
+    }
     return(
     <div>
     <Paper sx={{  marginTop: "0px", fontSize: "20", overflow: "hidden" }}>
         <Editor
             height="65vh"
-            defaultLanguage={props.language.toLowerCase()}
+            defaultLanguage={getLanguage()}
             defaultValue={python_default_code}
             value={props.defaultCodeTemplate}
-            language={props.language.toLowerCase()}
+            language={getLanguage()}
             theme="vs-dark"
             onMount={props.handleEditorDidMount}
         />
