@@ -3,10 +3,6 @@
 import "./../Styles/RightSection.css"
 // import { useGlobalEvent } from "beautiful-react-hooks";
 import * as React from 'react';
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import FileUploader from "./FileUploader";
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -29,24 +25,23 @@ const columns = [
 export default function Output(props) {
 
   // const [state, setState] = useState({ width: 'auto', height: 290 });
-  const theme = createTheme({
-    palette: {
-      primary: {
-        // This is green.A700 as hex.
-        main: '#11cb5f',
-      },
-    },
-  });
-  return (
 
+  return (
+    // <Resizable
+    // style={{ marginLeft: 0, marginTop: 0, border: "1px solid white", position: "relative" }}
+    // size={{ width: state.width, height: state.height }}
+    // onResizeStop={(e, direction, ref, d) => {
+    //    setState({
+    //       width: state.width, height: state.height + d.height,});
+    //    }}>
     <Paper
     elevation={8}
     sx={{
       m: "3px",
       marginBottom: "0px",
       minHeight: "290px",
-      padding: "0px",
-      paddingTop: "0px",
+      padding: "20px",
+      paddingTop: "2px",
       background: "#050c1b",
       color: "rgb(255,255,255)",
       resize: "both",
@@ -57,21 +52,6 @@ export default function Output(props) {
     <div className= "output-header">
       <h1>Output</h1>
       <LoadingIcon isLoading={props.isLoading}/>
-      <Box sx={{ m: "13px", display: "flex",
-  alignItems: "center",
-  justifyContent: "center", marginLeft: "auto", marginRight: "0px", textAlign: "right", alignContent: "right" }}>
-        <FileUploader 
-        setDefaultCodeTemplate = {props.setDefaultCodeTemplate}
-        language={props.language.toLowerCase()}
-        />
-        <ThemeProvider theme={theme}>
-
-            <Button variant="contained" onClick={props.sendCode} color="primary">
-                <b>Submit Code</b>
-            </Button>
-            
-        </ThemeProvider>
-    </Box>
     </div>
     {props.violation["compilationErr"]===false &&
       <TableContainer sx={{ maxHeight: 440 }}>

@@ -1,9 +1,48 @@
 .right-section{
     background-color: #111827;
-    width: 40%;
-    padding: 10px;
+    /* background-color: bisque; */
+    width: 45%;
+    padding: 0px;
     margin-top: 20px;
+    height: 120vh;
+    overflow-y: auto;
   }
+
+.gutter {
+    background-color: #eee;
+    background-repeat: no-repeat;
+    background-position: 50%;
+}
+
+.gutter:hover{
+  background-color: #1976d2;
+}
+
+.gutter.gutter-horizontal {
+    /* background-image: url('grips/vertical.png'); */
+    cursor: col-resize;
+}
+
+.gutter.gutter-vertical {
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
+    cursor: row-resize;
+}
+
+.guideline-section{
+  width: 96%;
+  background-color: #111827;
+  overflow: hidden;
+  /* overflow-y: scroll; */
+  padding: 10px;
+
+}
+
+.output-section{
+  width: 96%;
+  background-color: #111827;
+  padding: 10px;
+}
+
 
 /* Guideline Checkbox */
 .css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root{
@@ -25,15 +64,23 @@
   padding-top: 10px;
   display: grid;
   grid-template-columns: 8fr 1fr;
+  position: sticky;
+  top: 0;
 }
 
 .form-group{
-  height: 400px;
+  /* height: 300px; */
+  overflow-y: auto;
+}
+
+.form-group-custom{
+  /* height: 130px; */
   overflow-y: auto;
 }
 
 .css-1t1j96h-MuiPaper-root-MuiDialog-paper{
   border: "2px solid white" !important;
+  min-width: fit-content !important;
 }
 
 .output-header{

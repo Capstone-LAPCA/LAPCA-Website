@@ -37,16 +37,17 @@ export default function PredefinedGuidelines(props){
         textAlign: "left",
         m: "3px",
         marginTop: "0px",
-        padding: "20px",
+        padding: "18px",
         paddingTop: "2px",
         boxShadow: "none",
         background: "#111827",
         color: "#b5c0d0",
-        
+        // height: '300px',
+        // overflowY: 'scroll',
         }}
         >
     <div style={{backgroundColor: "#111827", maxWidth: "auto"}}>
-      <Dialog open={props.open} onClose={props.handleClose} sx={{ input: { minWidth: '70vh', maxWidth: 'auto'}}}>
+      <Dialog open={props.open} onClose={props.handleClose} sx={{ input: { minWidth: '100vh', maxWidth: 'auto'}}}>
         <DialogTitle 
           style={{backgroundColor: "#050c1b", 
                   color: "white", 
@@ -55,7 +56,7 @@ export default function PredefinedGuidelines(props){
                   borderRight: "1px solid aliceblue",
                   color: "white",
                   width: "auto"}}>
-            <span> A Guideline Name</span>
+            <span>Guideline Name</span>
             <BootstrapInput fullWidth
                             // readOnly = {false}
                             onChange = {(event) => props.handleSetTitle(event)}
@@ -103,7 +104,7 @@ export default function PredefinedGuidelines(props){
         <div className="guideline-header">
             <h1>Guidelines</h1>
             <Button variant="contained" 
-              onClick={(event) => props.handleClickOpen(event, "New_guideline.lapx")}
+              onClick={(event) => props.handleClickOpen(event, "New_guideline_label")}
               style={{ 
                       height: "40%", 
                       top: "50%", 

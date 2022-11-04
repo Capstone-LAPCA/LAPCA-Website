@@ -22,9 +22,9 @@ export default function CodeEditor(props){
 
     return(
     <div>
-    <Paper sx={{  marginTop: "0px", fontSize: "20" }}>
+    <Paper sx={{  marginTop: "0px", fontSize: "20", overflow: "hidden" }}>
         <Editor
-            height="75vh"
+            height="65vh"
             defaultLanguage={props.language.toLowerCase()}
             defaultValue={python_default_code}
             value={props.defaultCodeTemplate}
@@ -34,7 +34,7 @@ export default function CodeEditor(props){
         />
     </Paper>
 
-    <Box sx={{ m: "13px", marginRight: "10px", textAlign: "right" }}>
+    {/* <Box sx={{ m: "13px", marginRight: "10px", textAlign: "right" }}>
         <FileUploader 
         setDefaultCodeTemplate = {props.setDefaultCodeTemplate}
         language={props.language.toLowerCase()}
@@ -46,7 +46,7 @@ export default function CodeEditor(props){
             </Button>
             
         </ThemeProvider>
-    </Box>
+    </Box> */}
 
     </div>
     );

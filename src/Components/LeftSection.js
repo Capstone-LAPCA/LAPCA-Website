@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 
 
-
+import Output from "./Output";
 import LanguageSelect from "./LanguageSelect";
 import CodeEditor from "./CodeEditor";
 
@@ -23,6 +23,14 @@ export default function LeftSection(props){
         defaultCodeTemplate={props.defaultCodeTemplate}  
         handleEditorDidMount={props.handleEditorDidMount}
         setDefaultCodeTemplate = {props.setDefaultCodeTemplate}/>
+
+        <Output violation={props.violation} 
+        isLoading={props.isLoading}
+        language={props.language} 
+        sendCode={props.sendCode} 
+        defaultCodeTemplate={props.defaultCodeTemplate}
+        setDefaultCodeTemplate = {props.setDefaultCodeTemplate}/>
+        
     </div>
     );
 }

@@ -7,7 +7,6 @@ import LeftSection from "./Components/LeftSection";
 import "./App.css";
 import "./scrollbar.css"
 
-
 function App() {
   
   const editorRef = useRef(null)
@@ -32,6 +31,7 @@ function App() {
   const [customCount,setCustomCount]=useState(0)
 
   const [open, setOpen] = React.useState(false);
+  const [state, setState] = React.useState(false);
   const [title, setTitle] = React.useState("");
   const [guideline, setGuideline] = useState([]);
   const [code, setCode] = useState("");
@@ -91,6 +91,7 @@ function App() {
     setCustomFormResult((old)=>([...old,new_guideline]))
     setCustomCount((oldValue)=>(oldValue+1));
     handleClose();
+    setState(true);
     console.log(customFormResult)
   }
 
@@ -137,6 +138,9 @@ function App() {
     }
     setCustomFormResult(g)
     setCustomCount((oldValue)=>(oldValue-1))
+    if(customFormResult.length === 1){
+      setState(false);
+    }
     console.log(customFormResult)
   };
 
@@ -274,6 +278,7 @@ function getGuidelines(){
 
 
   return(
+
     <div className="main-body">
       <div className="navbar">
         <p>LAPCA</p>
@@ -286,7 +291,9 @@ function getGuidelines(){
       defaultCodeTemplate={defaultCodeTemplate} 
       formResult={formResult}
       handleEditorDidMount={handleEditorDidMount}
-      setDefaultCodeTemplate = {setDefaultCodeTemplate}/>
+      setDefaultCodeTemplate = {setDefaultCodeTemplate}
+      violation={violation} 
+      isLoading={isLoading}/>
 
       <RightSection 
       handleFormChange={handleFormChange} 
@@ -312,8 +319,11 @@ function getGuidelines(){
       customOpen={customOpen}
       handleCustomClose={handleCustomClose}
       handleCustomFormChange={handleCustomFormChange}
+      state = {state}
       />
+
     </div>
+
   );
 
 }

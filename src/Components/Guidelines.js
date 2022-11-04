@@ -50,6 +50,7 @@ export default function Guidelines(props){
       handleDelete={props.handleDelete}
       handleCustomClose={props.handleCustomClose}
       handleCustomFormChange={props.handleCustomFormChange}
+      state = {props.state}
       />
       </div>
     );

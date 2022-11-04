@@ -1,6 +1,6 @@
 .left-section{
     background: #050c1b;
-    width: 60%;
+    width: 55%;
     padding: 20px;
     margin-top: 20px;
   }
@@ -9,6 +9,11 @@
 .Select{
   color: white;
   background: white;
+}
+
+/*language select arrow*/
+.css-hfutr2-MuiSvgIcon-root-MuiSelect-icon{
+  color: white !important;
 }
 
 /* Language drop down */

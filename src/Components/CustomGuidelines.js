@@ -23,7 +23,9 @@ import InputBase from '@mui/material/InputBase';
 import Editor from "@monaco-editor/react";
 
 export default function PredefinedGuidelines(props){
-
+  const isTrue = props.state;
+  if (isTrue) {
+  
     return(
         <Paper
         elevation={8}
@@ -31,16 +33,15 @@ export default function PredefinedGuidelines(props){
         textAlign: "left",
         m: "3px",
         marginTop: "0px",
-        padding: "20px",
-        paddingTop: "2px",
+        padding: "18px",
+        paddingTop: "0px",
         boxShadow: "none",
         background: "#111827",
         color: "#b5c0d0",
-        
         }}
         >
     <div style={{backgroundColor: "#111827", maxWidth: "auto"}}>
-      <Dialog open={props.customOpen} onClose={props.handleCustomClose} sx={{ input: { minWidth: '70vh', maxWidth: 'auto'}}}>
+      <Dialog open={props.customOpen} onClose={props.handleCustomClose} sx={{ input: { minWidth: '80vh', maxWidth: 'auto'}}}>
         <DialogTitle 
           style={{backgroundColor: "#050c1b", 
                   color: "white", 
@@ -49,7 +50,7 @@ export default function PredefinedGuidelines(props){
                   borderRight: "1px solid aliceblue",
                   color: "white",
                   width: "auto"}}>
-            <span> B Guideline Name</span>
+            <span>Guideline Name</span>
             <BootstrapInput fullWidth
                             // readOnly = {false}
                             onChange = {(event) => props.handleSetTitle(event)}
@@ -93,8 +94,9 @@ export default function PredefinedGuidelines(props){
         </DialogActions>
       </Dialog>
     </div>
+                     
         <p>Custom Guidelines</p>
-        <div className="form-group">
+        <div className="form-group-custom">
             <FormGroup  sx={{ alignContent: "left"}}>
             {props.customFormResult.map(item=>{
                     return(
@@ -154,7 +156,7 @@ export default function PredefinedGuidelines(props){
         </Paper>
 );
 }
-
+}
 
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
     'label + &': {

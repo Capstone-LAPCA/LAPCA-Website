@@ -24,9 +24,12 @@ export default function LanguageSelect(props){
             sx={{
               marginBottom: "10px",
               marginTop: "20px",
-              minHeight: 10,
+              height: 40,
               minWidth: 80,
-              background: '#1d2432'
+              padding: 0,
+              background: '#1d2432',
+              justifyContent: "center",
+              alignItems: "center"
             }}
           >
         <ThemeProvider theme={themeDark}>
@@ -36,7 +39,7 @@ export default function LanguageSelect(props){
               label={props.language}
               value={props.language}
               onChange={props.handleLanguageChange}
-
+              sx ={{ height: 40, minWidth: 80}}
             >
               <MenuItem value={"c"}>C</MenuItem>
               <MenuItem value={"py"}>Python</MenuItem>
