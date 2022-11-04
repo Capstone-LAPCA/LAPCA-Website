@@ -112,7 +112,7 @@ export default function Output(props) {
       </TableContainer>
     }
     {props.violation["compilationErr"]===true &&
-    <p>{props.violation["compilationOutput"]}</p>
+    <p style={{whiteSpace: "pre-line"}}>{props.violation["compilationOutput"]}</p>
       }
     </Paper>
     // </Resizable>
