@@ -80,7 +80,7 @@
 
 .css-1t1j96h-MuiPaper-root-MuiDialog-paper{
   border: "2px solid white" !important;
-  min-width: fit-content !important;
+  /* min-width: fit-content !important; */
 }
 
 .output-header{

@@ -41,7 +41,16 @@ export default function PredefinedGuidelines(props){
         }}
         >
     <div style={{backgroundColor: "#111827", maxWidth: "auto"}}>
-      <Dialog open={props.customOpen} onClose={props.handleCustomClose} sx={{ input: { minWidth: '80vh', maxWidth: 'auto'}}}>
+      <Dialog open={props.customOpen} onClose={props.handleCustomClose} 
+      sx={{
+        "& .MuiDialog-container": {
+          "& .MuiPaper-root": {
+            width: "100%",
+            maxWidth: "900px",// Set your width here
+            minWidth: "fit-content",  
+          },
+        },
+      }}>
         <DialogTitle 
           style={{backgroundColor: "#050c1b", 
                   color: "white", 

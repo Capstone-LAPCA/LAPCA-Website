@@ -7,7 +7,7 @@ import axios from "axios";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Button from "@mui/material/Button";
 import '../Styles/RightSection.css';
-import { ConstructionOutlined } from "@mui/icons-material";
+import { ConstructionOutlined, ImportantDevices } from "@mui/icons-material";
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
 import Dialog from '@mui/material/Dialog';
@@ -25,7 +25,7 @@ import Editor from "@monaco-editor/react";
 
 
 export default function PredefinedGuidelines(props){
-    
+
     useEffect(()=>{
         props.getGuidelines();
     },[])
@@ -46,8 +46,16 @@ export default function PredefinedGuidelines(props){
         // overflowY: 'scroll',
         }}
         >
-    <div style={{backgroundColor: "#111827", maxWidth: "auto"}}>
-      <Dialog open={props.open} onClose={props.handleClose} sx={{ input: { minWidth: '100vh', maxWidth: 'auto'}}}>
+    <div style={{backgroundColor: "#111827"}} maxWidth={false} minWidth={false}>
+      <Dialog open={props.open} onClose={props.handleClose} sx={{
+      "& .MuiDialog-container": {
+        "& .MuiPaper-root": {
+          width: "100%",
+          maxWidth: "900px",// Set your width here
+          minWidth: "fit-content",  
+        },
+      },
+    }}>
         <DialogTitle 
           style={{backgroundColor: "#050c1b", 
                   color: "white", 
