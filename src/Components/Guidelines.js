@@ -1,19 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Paper from "@mui/material/Paper";
-import Checkbox from "@mui/material/Checkbox";
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import axios from "axios";
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Button from "@mui/material/Button";
-import '../Styles/RightSection.css';
-import { ConstructionOutlined } from "@mui/icons-material";
-import EditIcon from '@mui/icons-material/Edit';
-import AddIcon from '@mui/icons-material/Add';
-import GuidelineEd from "./GuidelineEd";
-import DeleteIcon from '@mui/icons-material/Delete';
-import GuidelineEdCustom from "./GuidelineEdCustom"
-
 import PredefinedGuidelines from "./PredefinedGuidelines";
 import CustomGuidelines from "./CustomGuidelines";
 
@@ -30,13 +15,11 @@ export default function Guidelines(props){
       code = {props.code}
       handleSetTitle = {props.handleSetTitle}
       handleSetCode = {props.handleSetCode}
-      
       handleClickOpen = {props.handleClickOpen}
       handleClose = {props.handleClose}
       handleSave = {props.handleSave}
-      
-      
       />
+      
       <CustomGuidelines
       customFormResult={props.customFormResult}
       handleCustomClickOpen = {props.handleCustomClickOpen}

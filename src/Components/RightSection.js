@@ -43,34 +43,3 @@ export default function RightSection(props){
 
     );
 }
-
-
-// <div className="right">
-        {/*
-        // <Split direction= "vertical" style={{height: 'calc(100vh - 4)'}} >
-        // <Guidelines handleFormChange={props.handleFormChange}
-        // open = {props.open}
-        // title = {props.title}
-        // guideline = {props.guideline}
-        // code = {props.code}
-        // customFormResult = {props.customFormResult}
-        // handleGuidelineEditorDidMount = {props.handleGuidelineEditorDidMount}
-        // handleCustomGuidelineEditorDidMount={props.handleCustomGuidelineEditorDidMount}
-        // handleSetTitle = {props.handleSetTitle}
-        // handleSetCode = {props.handleSetCode}
-        // handleSave = {props.handleSave}
-        // handleClickOpen = {props.handleClickOpen}
-        // handleDelete = {props.handleDelete}
-        // handleClose = {props.handleClose}
-        // getGuidelines = {props.getGuidelines}
-        // handleCustomSave = {props.handleCustomSave}
-        // handleCustomClose={props.handleCustomClose}
-        // handleSetCustomCode={props.handleSetCustomCode}
-        // handleCustomClickOpen={props.handleCustomClickOpen}
-        // customOpen={props.customOpen}
-        // handleCustomFormChange={props.handleCustomFormChange}
-        // state = {props.state}
-        // />
-        // <Output violation={props.violation} isLoading={props.isLoading}/>
-        // </Split>
-        */}

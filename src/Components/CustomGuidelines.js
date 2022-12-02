@@ -10,8 +10,7 @@ import '../Styles/RightSection.css';
 import { ConstructionOutlined } from "@mui/icons-material";
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
-import GuidelineEd from "./GuidelineEd";
-import GuidelineEdCustom from "./GuidelineEdCustom"
+
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';

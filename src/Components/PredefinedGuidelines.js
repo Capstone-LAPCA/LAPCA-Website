@@ -16,9 +16,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { alpha, styled } from '@mui/material/styles';
-import GuidelineEd from "./GuidelineEd";
 import DeleteIcon from '@mui/icons-material/Delete';
-import GuidelineEdCustom from "./GuidelineEdCustom"
 import InputBase from '@mui/material/InputBase';
 import Editor from "@monaco-editor/react";
 

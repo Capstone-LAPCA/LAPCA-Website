@@ -1,7 +1,4 @@
-// import React from "react";
-// import Paper from "@mui/material/Paper";
 import "./../Styles/RightSection.css"
-// import { useGlobalEvent } from "beautiful-react-hooks";
 import * as React from 'react';
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -38,7 +35,7 @@ export default function Output(props) {
     },
   });
   return (
-
+    
     <Paper
     elevation={8}
     sx={{
@@ -58,8 +55,12 @@ export default function Output(props) {
       <h1>Output</h1>
       <LoadingIcon isLoading={props.isLoading}/>
       <Box sx={{ m: "13px", display: "flex",
-  alignItems: "center",
-  justifyContent: "center", marginLeft: "auto", marginRight: "0px", textAlign: "right", alignContent: "right" }}>
+                alignItems: "center",
+                justifyContent: "center", 
+                marginLeft: "auto", 
+                marginRight: "0px", 
+                textAlign: "right", 
+                alignContent: "right" }}>
         <FileUploader 
         setDefaultCodeTemplate = {props.setDefaultCodeTemplate}
         language={props.language.toLowerCase()}
@@ -74,6 +75,10 @@ export default function Output(props) {
     </Box>
     </div>
     {props.violation["compilationErr"]===false &&
+      <>
+      <div className="lapca-score">
+        <h1>LAPCA Score: {props.score}</h1>
+      </div>
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -110,11 +115,14 @@ export default function Output(props) {
           </TableBody>
         </Table>
       </TableContainer>
+      </>
     }
     {props.violation["compilationErr"]===true &&
     <p style={{whiteSpace: "pre-line"}}>{props.violation["compilationOutput"]}</p>
       }
+    
     </Paper>
+  
     // </Resizable>
   );
 }

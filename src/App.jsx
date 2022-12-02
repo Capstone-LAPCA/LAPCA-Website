@@ -6,6 +6,7 @@ import LeftSection from "./Components/LeftSection";
 
 import "./App.css";
 import "./scrollbar.css"
+import { setSelectionRange } from "@testing-library/user-event/dist/utils";
 
 function App() {
   
@@ -29,7 +30,7 @@ function App() {
   }
 
   const [customCount,setCustomCount]=useState(0)
-
+  const [score, setScore] = useState(0);
   const [open, setOpen] = React.useState(false);
   const [state, setState] = React.useState(false);
   const [title, setTitle] = React.useState("");
@@ -242,12 +243,6 @@ function getGuidelines(){
         i+=1
         g.push(ele)
     }
-
-    // for(var i=0;i<newCustomFormResult.length;i++){
-    //   if (newCustomFormResult[i]["id"]===event.target.id){
-    //     newCustomFormResult[i]["checked"]=event.target.checked
-    //   }
-    // }
     setCustomFormResult(g);
     console.log("Form change",g)
   }
@@ -267,9 +262,9 @@ function getGuidelines(){
       })
       .then((res) => {
         console.log(res.data);
-        setViolation(res.data)
+        setViolation(res.data);
         setIsLoading("hidden");
-
+        setScore(res.data.score);
       })
       .catch((err) => {
         console.log("Error",err);
@@ -293,7 +288,8 @@ function getGuidelines(){
       handleEditorDidMount={handleEditorDidMount}
       setDefaultCodeTemplate = {setDefaultCodeTemplate}
       violation={violation} 
-      isLoading={isLoading}/>
+      isLoading={isLoading}
+      score={score}/>
 
       <RightSection 
       handleFormChange={handleFormChange} 

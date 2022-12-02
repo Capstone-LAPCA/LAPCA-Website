@@ -28,6 +28,7 @@ export default function LeftSection(props){
         isLoading={props.isLoading}
         language={props.language} 
         sendCode={props.sendCode} 
+        score={props.score}
         defaultCodeTemplate={props.defaultCodeTemplate}
         setDefaultCodeTemplate = {props.setDefaultCodeTemplate}/>
         

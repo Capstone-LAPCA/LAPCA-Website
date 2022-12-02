@@ -55,3 +55,10 @@
 .monaco-scrollable-element>.invisible {
   background-color: #1d2432 !important;
 }
+
+/* lapca-score div */
+.lapca-score{
+  padding: 1px;
+  width: 100%;
+  background-color: "";
+}
