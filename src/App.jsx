@@ -279,14 +279,14 @@ function getGuidelines(){
       <div className="navbar">
           <p>LAPCA</p>
           <div className="nav-link">
-            <a href="/"><p>Home</p></a>
+            <a href="/LAPCA-Website"><p>Home</p></a>
             <a href="/score"><p>Score</p></a>
           </div>
       </div>
       
       <BrowserRouter>
       <Routes>
-        <Route path="/" element={
+        <Route path="/LAPCA-Website" element={
         <>
         <LeftSection 
         sendCode={sendCode} 
