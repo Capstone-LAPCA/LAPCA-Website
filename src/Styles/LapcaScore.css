@@ -1,0 +1,24 @@
+.main-score-div{
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    margin-top: 8%;
+}
+
+.tab-content > label{
+    margin-bottom: '0px';
+}
+
+.score-heading{
+    font-size: medium;
+}
+/* radio box*/
+.css-vqmohf-MuiButtonBase-root-MuiRadio-root{
+    color: aliceblue !important;
+}
+
+/* #demo-row-radio-buttons-group-label:: */

@@ -1,9 +1,9 @@
 import React, { useRef, useState } from "react";
 import axios from "axios";
-
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import RightSection from "./Components/RightSection";
 import LeftSection from "./Components/LeftSection";
-
+import LapcaScore from "./Components/LapcaScore";
 import "./App.css";
 import "./scrollbar.css"
 import { setSelectionRange } from "@testing-library/user-event/dist/utils";
@@ -275,49 +275,63 @@ function getGuidelines(){
   return(
 
     <div className="main-body">
+      
       <div className="navbar">
-        <p>LAPCA</p>
+          <p>LAPCA</p>
+          <div className="nav-link">
+            <a href="/"><p>Home</p></a>
+            <a href="/score"><p>Score</p></a>
+          </div>
       </div>
-
-      <LeftSection 
-      sendCode={sendCode} 
-      handleLanguageChange={handleLanguageChange} 
-      language={language}  
-      defaultCodeTemplate={defaultCodeTemplate} 
-      formResult={formResult}
-      handleEditorDidMount={handleEditorDidMount}
-      setDefaultCodeTemplate = {setDefaultCodeTemplate}
-      violation={violation} 
-      isLoading={isLoading}
-      score={score}/>
-
-      <RightSection 
-      handleFormChange={handleFormChange} 
-      violation={violation}
-      isLoading={isLoading}
-      open = {open}
-      title = {title}
-      guideline = {guideline}
-      code = {code}
-      customFormResult = {customFormResult}
-      handleGuidelineEditorDidMount = {handleGuidelineEditorDidMount}
-      handleCustomGuidelineEditorDidMount={handleCustomGuidelineEditorDidMount}
-      handleSetTitle = {handleSetTitle}
-      handleSetCode = {handleSetCode}
-      handleSave = {handleSave}
-      handleClickOpen = {handleClickOpen}
-      handleDelete = {handleDelete}
-      handleClose = {handleClose}
-      getGuidelines = {getGuidelines}
-      handleSetCustomCode={handleSetCustomCode}
-      handleCustomSave={handleCustomSave}
-      handleCustomClickOpen={handleCustomClickOpen}
-      customOpen={customOpen}
-      handleCustomClose={handleCustomClose}
-      handleCustomFormChange={handleCustomFormChange}
-      state = {state}
-      />
-
+      
+      <BrowserRouter>
+      <Routes>
+        <Route path="/" element={
+        <>
+        <LeftSection 
+        sendCode={sendCode} 
+        handleLanguageChange={handleLanguageChange} 
+        language={language}  
+        defaultCodeTemplate={defaultCodeTemplate} 
+        formResult={formResult}
+        handleEditorDidMount={handleEditorDidMount}
+        setDefaultCodeTemplate = {setDefaultCodeTemplate}
+        violation={violation} 
+        isLoading={isLoading}
+        score={score}/>
+  
+        <RightSection 
+        handleFormChange={handleFormChange} 
+        violation={violation}
+        isLoading={isLoading}
+        open = {open}
+        title = {title}
+        guideline = {guideline}
+        code = {code}
+        customFormResult = {customFormResult}
+        handleGuidelineEditorDidMount = {handleGuidelineEditorDidMount}
+        handleCustomGuidelineEditorDidMount={handleCustomGuidelineEditorDidMount}
+        handleSetTitle = {handleSetTitle}
+        handleSetCode = {handleSetCode}
+        handleSave = {handleSave}
+        handleClickOpen = {handleClickOpen}
+        handleDelete = {handleDelete}
+        handleClose = {handleClose}
+        getGuidelines = {getGuidelines}
+        handleSetCustomCode={handleSetCustomCode}
+        handleCustomSave={handleCustomSave}
+        handleCustomClickOpen={handleCustomClickOpen}
+        customOpen={customOpen}
+        handleCustomClose={handleCustomClose}
+        handleCustomFormChange={handleCustomFormChange}
+        state = {state}
+        />
+        </>
+        }/>
+          
+        <Route path="/score" element={<LapcaScore />} />
+      </Routes>
+      </BrowserRouter>
     </div>
 
   );
