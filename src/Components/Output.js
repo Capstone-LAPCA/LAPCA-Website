@@ -77,7 +77,7 @@ export default function Output(props) {
     {props.violation["compilationErr"]===false &&
       <>
       <div className="lapca-score">
-        <h1>LAPCA Score: {props.score}</h1>
+        <h1>LAPCA Percent: {(((props.score)/106)*100).toFixed(2)}%</h1>
       </div>
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">

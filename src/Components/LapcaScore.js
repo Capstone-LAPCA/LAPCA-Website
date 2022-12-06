@@ -130,7 +130,7 @@ export default function LapcaScore(){
                                     accept=".zip,.rar,.7zip"
                             /> 
                             <br/>
-                        <ThemeProvider theme={theme2}>
+                        <ThemeProvider theme={theme2} style={{marginTop: "20px"}}>
                             <Button variant="contained" onClick={handleSubmit} color="primary">
                                 <b>Submit Code</b>
                             </Button>
