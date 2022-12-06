@@ -13,6 +13,10 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { useState } from 'react';
 import axios from 'axios';
+import Alert from '@mui/material/Alert';
+import Collapse from '@mui/material/Collapse';
+import CloseIcon from '@mui/icons-material/Close';
+import IconButton from '@mui/material/IconButton';
 
 export default function LapcaScore(){
     const [name, setName] = useState('');
@@ -32,6 +36,13 @@ export default function LapcaScore(){
         .then((res) => {
             console.log(res);
         })
+        setOpen(true);
+        setTimeout(() => {
+
+            setOpen(false)
+
+        }, 10000);
+        
     };
 
   const handleReportType = (event) =>{
@@ -44,6 +55,7 @@ export default function LapcaScore(){
     }
   };
 
+  const [open, setOpen] = useState(false);
   const [fileName, setFileName] = useState("");
   const [uploadFile, setUploadFile] = useState("");
   const hiddenFileInput = React.useRef(null);
@@ -137,11 +149,38 @@ export default function LapcaScore(){
                         </ThemeProvider>
 
                         </FormControl>
+                        
                     </Box>
+                    <AlertDisplay open = {open}
+                    alertMessage = "Successfully submitted! You'll receive your report shortly"
+                    setopen = {setOpen} sx= {{marginTop: '30px'}} severity="success"></AlertDisplay>
         </div>
     )
 };
 
+function AlertDisplay({open, alertMessage, setopen}){
+  return(
+    <Collapse in={open} sx= {{marginTop: '30px'}}>
+        <Alert
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="medium"
+              onClick={() => {
+                setopen(false);
+              }}
+            >
+              <CloseIcon fontSize="inherit" />
+            </IconButton>
+          }
+          sx={{ mb: 3, fontSize: "large" }}
+        >
+          {alertMessage}
+        </Alert>
+      </Collapse>
+  );
+}
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
     'label + &': {
       marginTop: theme.spacing(0),
