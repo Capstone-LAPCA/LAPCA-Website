@@ -17,7 +17,7 @@ import axios from 'axios';
 export default function LapcaScore(){
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
-    const [reportType, setReportType] = useState("score");
+    const [reportType, setReportType] = useState("LAPCA Score");
 
     const handleSubmit=() => {
         // console.log(name);
@@ -36,11 +36,11 @@ export default function LapcaScore(){
 
   const handleReportType = (event) =>{
     switch(event.target.value){
-        case 'score': setReportType('score');
+        case 'score': setReportType('LAPCA Score');
                       break;
-        case 'similarity': setReportType('similarity');
+        case 'similarity': setReportType('LAPCA Similarity Score');
                            break;
-        default: setReportType('score');
+        default: setReportType('LAPCA Score');
     }
   };
 
