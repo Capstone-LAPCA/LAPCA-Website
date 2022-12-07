@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/LAPCA-Website/static/css/main.cd1ce5c6.css",
-    "main.js": "/LAPCA-Website/static/js/main.38aa0808.js",
-    "static/js/787.13efdb33.chunk.js": "/LAPCA-Website/static/js/787.13efdb33.chunk.js",
-    "index.html": "/LAPCA-Website/index.html",
-    "main.cd1ce5c6.css.map": "/LAPCA-Website/static/css/main.cd1ce5c6.css.map",
-    "main.38aa0808.js.map": "/LAPCA-Website/static/js/main.38aa0808.js.map",
-    "787.13efdb33.chunk.js.map": "/LAPCA-Website/static/js/787.13efdb33.chunk.js.map"
+    "main.css": "/static/css/main.cd1ce5c6.css",
+    "main.js": "/static/js/main.52d4e76d.js",
+    "static/js/787.13efdb33.chunk.js": "/static/js/787.13efdb33.chunk.js",
+    "index.html": "/index.html",
+    "main.cd1ce5c6.css.map": "/static/css/main.cd1ce5c6.css.map",
+    "main.52d4e76d.js.map": "/static/js/main.52d4e76d.js.map",
+    "787.13efdb33.chunk.js.map": "/static/js/787.13efdb33.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.cd1ce5c6.css",
-    "static/js/main.38aa0808.js"
+    "static/js/main.52d4e76d.js"
   ]
 }
