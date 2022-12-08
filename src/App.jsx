@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import axios from "axios";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, HashRouter } from "react-router-dom";
 import RightSection from "./Components/RightSection";
 import LeftSection from "./Components/LeftSection";
 import LapcaScore from "./Components/LapcaScore";
@@ -284,9 +284,9 @@ function getGuidelines(){
           </div>
       </div>
       
-      <BrowserRouter>
+      <HashRouter>
       <Routes>
-        <Route path="/LAPCA-Website" element={
+        <Route path="/" element={
         <>
         <LeftSection 
         sendCode={sendCode} 
@@ -329,9 +329,9 @@ function getGuidelines(){
         </>
         }/>
           
-        <Route path="/LAPCA-Website/score" element={<LapcaScore />} />
+        <Route path="/score" element={<LapcaScore />} />
       </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </div>
 
   );
