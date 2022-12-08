@@ -280,7 +280,7 @@ function getGuidelines(){
           <p>LAPCA</p>
           <div className="nav-link">
             <a href="/LAPCA-Website"><p>Home</p></a>
-            <a href="/score"><p>Score</p></a>
+            <a href="/LAPCA-Website/score"><p>Score</p></a>
           </div>
       </div>
       
@@ -329,7 +329,7 @@ function getGuidelines(){
         </>
         }/>
           
-        <Route path="/score" element={<LapcaScore />} />
+        <Route path="/LAPCA-Website/score" element={<LapcaScore />} />
       </Routes>
       </BrowserRouter>
     </div>
