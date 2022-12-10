@@ -1,7 +1,7 @@
 {
   "name": "lapca-client",
   "version": "0.1.0",
-  "homepage": "https://Capstone-LAPCA.github.io/LAPCA-Website",
+  "homepage": "",
   "private": true,
   "dependencies": {
     "@mui/icons-material": "^5.10.6",

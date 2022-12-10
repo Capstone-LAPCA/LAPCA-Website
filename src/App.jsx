@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import axios from "axios";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, HashRouter, Link } from "react-router-dom";
 import RightSection from "./Components/RightSection";
 import LeftSection from "./Components/LeftSection";
 import LapcaScore from "./Components/LapcaScore";
@@ -180,7 +180,7 @@ function App() {
 
 function getGuidelines(){
       axios
-        .get("http://127.0.0.1:3003//getGuidelines")
+        .get("https://web-production-efc3.up.railway.app///getGuidelines")
         .then((res) => {
         let data = res.data;
         setGuideline(data["guidelines"]);
@@ -254,7 +254,7 @@ function getGuidelines(){
     setIsLoading("visible");
     setViolation({compilationErr:false,compilationOutput:"Compiled Successfully",guidelines:[]});
     axios
-      .post("http://127.0.0.1:3003//getResults", {
+      .post("https://web-production-efc3.up.railway.app///getResults", {
         code: code,
         language: language,
         predefined_guidelines: formResult,

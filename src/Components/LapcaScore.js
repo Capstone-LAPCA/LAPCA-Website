@@ -28,7 +28,7 @@ export default function LapcaScore(){
         // console.log(email);
         // console.log(reportType);
         // console.log(uploadFile);
-        axios.post("http://127.0.0.1:3003//upload_file", 
+        axios.post("https://web-production-efc3.up.railway.app///upload_file", 
         {name: name,
          email: email,
          reportType: reportType,
