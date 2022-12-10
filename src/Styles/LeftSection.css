@@ -1,0 +1,64 @@
+.left-section{
+    background: #050c1b;
+    width: 55%;
+    padding: 20px;
+    margin-top: 20px;
+  }
+  
+/* Language Select */
+.Select{
+  color: white;
+  background: white;
+}
+
+/*language select arrow*/
+.css-hfutr2-MuiSvgIcon-root-MuiSelect-icon{
+  color: white !important;
+}
+
+/* Language drop down */
+.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input{
+  background: #1d2432 !important;
+  color: white !important;
+}
+
+.css-1sumxir-MuiFormLabel-root-MuiInputLabel-root{
+  color: white !important;
+}
+
+/* Language Drop down icon */
+.css-hfutr2-MuiSvgIcon-root-MuiSelect-icon{
+  color: aliceblue;
+}
+
+/* Editor */
+.monaco-editor{
+  background-color: #1d2432 !important;
+  border-radius: 10%;
+}
+
+.monaco-editor, 
+.monaco-editor-background, 
+.monaco-editor .inputarea.ime-input, 
+.monaco-editor .margin, 
+.monaco-editor .minimap,
+.decorationsOverviewRuler {
+  background-color: #1d2432 !important;
+}
+
+/* Editor minimap */
+.minimap-decorations-layer {
+  background-color: inherit;
+  width: 0;
+}
+
+.monaco-scrollable-element>.invisible {
+  background-color: #1d2432 !important;
+}
+
+/* lapca-score div */
+.lapca-score{
+  padding: 1px;
+  width: 100%;
+  background-color: "";
+}

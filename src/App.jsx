@@ -1,287 +1,341 @@
-import "./App.css";
-import Editor from "@monaco-editor/react";
 import React, { useRef, useState } from "react";
 import axios from "axios";
-import Button from "@mui/material/Button";
-import Checkbox from "@mui/material/Checkbox";
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Box from "@mui/material/Box";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import Paper from "@mui/material/Paper";
+import { BrowserRouter, Routes, Route, HashRouter, Link } from "react-router-dom";
+import RightSection from "./Components/RightSection";
+import LeftSection from "./Components/LeftSection";
+import LapcaScore from "./Components/LapcaScore";
+import "./App.css";
 import "./scrollbar.css"
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { fontSize } from "@mui/system";
+import { setSelectionRange } from "@testing-library/user-event/dist/utils";
 
 function App() {
-  const theme = createTheme({
-    palette: {
-      primary: {
-        // This is green.A700 as hex.
-        main: '#11cb5f',
-      },
-    },
-  });
+  
+  const editorRef = useRef(null)
+  const [violation,setViolation]=useState({compilationErr:false,compilationOutput:"Compiled Successfully",guidelines:[]})
+  const [formResult, setFormResult] = useState([]);
+  const [customFormResult,setCustomFormResult]=useState([]);
+  const [targetId,setTargetId]=useState(0)
+  // const [formUser, setFormUserResult] = useState([]);
 
-  const themeDark = createTheme({
-    palette: {
-      background: {
-        paper: "#050c1b",
-      },
-      text: {
-        primary: "white"
+  const python_default_code = `print("Hello World")`;
+  const c_default_code =`#include <stdio.h>\nint main(){\n\tprintf("Hello World");\n\treturn 0;\n}`;
+  const java_default_code =`class TestProgram{\n\tpublic static void main(String[] args){\n\t\tSystem.out.println("Hello World");\n\t}\n}`;
+
+  const [language,setLanguage]=useState("py")
+  const [defaultCodeTemplate, setDefaultCodeTemplate] = useState(python_default_code);
+  const [isLoading, setIsLoading]=useState("hidden");
+
+  function handleEditorDidMount(editor,monaco){
+    editorRef.current=editor;
+  }
+
+  const [customCount,setCustomCount]=useState(0)
+  const [score, setScore] = useState(0);
+  const [open, setOpen] = React.useState(false);
+  const [state, setState] = React.useState(false);
+  const [title, setTitle] = React.useState("");
+  const [guideline, setGuideline] = useState([]);
+  const [code, setCode] = useState("");
+  const [values, setValues] = useState(
+                      {"id":0,
+                      "checked":false,
+                      "label":"",
+                      "code":""});
+  const [customOpen,setCustomOpen]=React.useState(false)
+
+  const guidelineEditorRef = React.useRef(null)
+  const customGuidelineEditorRef=React.useRef(null)
+
+  
+  function handleGuidelineEditorDidMount(editor,monaco){
+    guidelineEditorRef.current=editor;
+  }
+
+  function handleCustomGuidelineEditorDidMount(editor,monaco){
+    customGuidelineEditorRef.current=editor;
+  }
+
+
+
+  const handleSetTitle = (event) =>{
+    setTitle(event.target.value)
+    setValues((oldValues) => ({
+      ...oldValues,
+      ["label"]: event.target.value,
+    }));
+  }
+
+  const handleSetCode = (event) =>{
+    const guidelineCode = guidelineEditorRef.current.getValue();
+    setCode(guidelineCode)
+      setValues((oldValues) => ({
+        ...oldValues,
+        ["code"]: guidelineCode,
+      }));
+  }
+
+  const handleSetCustomCode = (event) =>{
+    const guidelineCode = customGuidelineEditorRef.current.getValue();
+    setCode(guidelineCode)
+      setValues((oldValues) => ({
+        ...oldValues,
+        ["code"]: guidelineCode,
+      }));
+    
+  }
+
+
+
+  const handleSave = (e) =>{
+    let new_guideline = values;
+    new_guideline["id"]=customCount
+    setCustomFormResult((old)=>([...old,new_guideline]))
+    setCustomCount((oldValue)=>(oldValue+1));
+    handleClose();
+    setState(true);
+    console.log(customFormResult)
+  }
+
+  const handleCustomSave = (e)=>{
+    let g=[]
+    let new_obj={}
+    for (let i=0;i<customFormResult.length;i++){
+      if (customFormResult[i]["id"]==targetId){
+        new_obj={}
+        new_obj["id"]=i
+        new_obj["checked"]=customFormResult[i]["checked"]
+        new_obj["label"]=values["label"]
+        new_obj["code"]=values["code"]
+      }
+      else{
+        new_obj={}
+        new_obj["id"]=i
+        new_obj["checked"]=customFormResult[i]["checked"]
+        new_obj["label"]=customFormResult[i]["label"]
+        new_obj["code"]=customFormResult[i]["code"]
+      }
+      g.push(new_obj)
+    }
+
+    setCustomFormResult(g)
+    handleCustomClose();
+    console.log(customFormResult)
+  }
+
+
+  const handleDelete = (e, val) =>{
+
+    let g=[]
+    let new_obj={}
+    for (let i=0;i<customFormResult.length;i++){
+      if (customFormResult[i]["id"]!==val){
+        new_obj={}
+        new_obj["id"]=i
+        new_obj["checked"]=customFormResult[i]["checked"]
+        new_obj["label"]=customFormResult[i]["label"]
+        new_obj["code"]=customFormResult[i]["code"]
+        g.push(new_obj)
       }
     }
-  });
+    setCustomFormResult(g)
+    setCustomCount((oldValue)=>(oldValue-1))
+    if(customFormResult.length === 1){
+      setState(false);
+    }
+    console.log(customFormResult)
+  };
 
-  const [formResult, setFormResult] = useState({
-    "Recursion.lapx": false,
-    "Assign_in_loop.lapx": false,
-    "Continue.lapx": false,
-    "Unused_Functions.lapx": false,
-    "One_var_decl.lapx": false,
-    "Binary_Search_Iterative.lapx": false,
-    "Dead_Code.lapx": false,
-    "var_greater_than_31.lapx": false,
-  });
-  const python_default_code = `print("Hello World")`;
-  const c_default_code =
-    `#include <stdio.h>\nint main(){\n\tprintf("Hello World");\n\treturn 0;\n}`;
-  const java_default_code =
-    `class TestProgram{\n\tpublic static void main(String[] args){\n\t\tSystem.out.println("Hello World");\n\t}\n}`;
+  const handleClickOpen = (event, label, code, id) => {
+    setValues((oldValues) => ({
+      ...oldValues,
+      ["label"]:label,
+      ["code"]:code}));
+    setTargetId(id);
+    setTitle(label);
+    setOpen(true);
+    setCode(code);
+  };
 
-  const editorRef = useRef(null);
-  const [defaultLanguage, setDefaultLanguage] = useState("Python");
-  const [defaultCodeTemplate, setDefaultCodeTemplate] = useState(python_default_code);
-  const [violation,setViolation]=useState()
+  const handleCustomClickOpen = (event, label, code, id) => {
+    setValues((oldValues) => ({
+      ...oldValues,
+      ["label"]:label,
+      ["code"]:code}));
+    setTargetId(id);
+    setTitle(label);
+    setCustomOpen(true);
+    setCode(code);
+  };
+
+
   
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleCustomClose = () => {
+    setCustomOpen(false);
+  };
+
+
+function getGuidelines(){
+      axios
+        .get("https://web-production-efc3.up.railway.app///getGuidelines")
+        .then((res) => {
+        let data = res.data;
+        setGuideline(data["guidelines"]);
+        let obj=[]
+        
+        for (var i = 0; i < data["guidelines"].length; i++){
+          
+            let d={}
+            // console.log(data["guidelines"][i]["id"])
+            // d[data["guidelines"][i]["id"]]=false
+            d["id"]=data["guidelines"][i]["id"]
+            d["checked"]=false
+            obj.push(d)
+
+        }
+        setFormResult(obj)
+       
+        })
+        .catch((err) => {
+          console.log("Error",err);
+        });
+}
+
+
+  const handleLanguageChange = (event)=>{
+      setLanguage(event.target.value)
+      switch (event.target.value) {
+          case "py":
+            setDefaultCodeTemplate(python_default_code);
+            break;
+          case "c":
+            setDefaultCodeTemplate(c_default_code);
+            break;
+          case "java":
+            setDefaultCodeTemplate(java_default_code);
+            break;
+          default:
+            setDefaultCodeTemplate(python_default_code);
+        }
+  }
+
+  function handleFormChange(event) {
+    let newFormResult = formResult;
+    for(var i=0;i<formResult.length;i++){
+      if (newFormResult[i]["id"]===event.target.id){
+        newFormResult[i]["checked"]=event.target.checked
+      }
+    }
+    setFormResult(newFormResult);
+    // newFormResult[event.target.id] = event.target.checked;
+  }
+  function handleCustomFormChange(event) {
+    let newCustomFormResult = customFormResult;
+    let g=[]
+    let i=0
+    for (let ele of newCustomFormResult){
+        if (i==event.target.id){
+          ele["checked"]=event.target.checked
+        }
+        i+=1
+        g.push(ele)
+    }
+    setCustomFormResult(g);
+    console.log("Form change",g)
+  }
+
   function sendCode() {
+    console.log("clicked")
     const code = editorRef.current.getValue();
-    setViolation("Loading...")
+    // setViolation("Loading...")
+    setIsLoading("visible");
+    setViolation({compilationErr:false,compilationOutput:"Compiled Successfully",guidelines:[]});
     axios
-      .post("https://lapca.herokuapp.com//getResults", {
+      .post("https://web-production-efc3.up.railway.app///getResults", {
         code: code,
-        language: defaultLanguage,
-        form: formResult,
+        language: language,
+        predefined_guidelines: formResult,
+        custom_guidelines: customFormResult
       })
       .then((res) => {
         console.log(res.data);
-        setViolation(res.data)
+        setViolation(res.data);
+        setIsLoading("hidden");
+        setScore(res.data.score);
       })
       .catch((err) => {
         console.log("Error",err);
       });
   }
 
-  function handleLanguageChange(event) {
-    setDefaultLanguage(event.target.value);
-    switch (event.target.value) {
-      case "Python":
-        setDefaultCodeTemplate(python_default_code);
-        break;
-      case "C":
-        setDefaultCodeTemplate(c_default_code);
-        break;
-      case "Java":
-        setDefaultCodeTemplate(java_default_code);
-        break;
-      default:
-        setDefaultCodeTemplate(python_default_code);
-    }
-  }
 
-  function handleFormChange(event) {
-    let newFormResult = formResult;
-    newFormResult[event.target.id] = event.target.checked;
-    setFormResult(newFormResult);
-    console.log(formResult);
-  }
+  return(
 
-  return (
-    //<div style={{ backgroundColor: "#383434" }}>
-    <div>
+    <div className="main-body">
+      
       <div className="navbar">
-        <p>LAPCA</p>
+          <p>LAPCA</p>
+          <div className="nav-link">
+            <a href="/"><p>Home</p></a>
+            <a href="/score"><p>Score</p></a>
+          </div>
       </div>
-      <div className="main-body">
-        
-        <div className="left-section">
+      
+      <BrowserRouter>
+      <Routes>
+        <Route path="/" element={
+        <>
+        <LeftSection 
+        sendCode={sendCode} 
+        handleLanguageChange={handleLanguageChange} 
+        language={language}  
+        defaultCodeTemplate={defaultCodeTemplate} 
+        formResult={formResult}
+        handleEditorDidMount={handleEditorDidMount}
+        setDefaultCodeTemplate = {setDefaultCodeTemplate}
+        violation={violation} 
+        isLoading={isLoading}
+        score={score}/>
+  
+        <RightSection 
+        handleFormChange={handleFormChange} 
+        violation={violation}
+        isLoading={isLoading}
+        open = {open}
+        title = {title}
+        guideline = {guideline}
+        code = {code}
+        customFormResult = {customFormResult}
+        handleGuidelineEditorDidMount = {handleGuidelineEditorDidMount}
+        handleCustomGuidelineEditorDidMount={handleCustomGuidelineEditorDidMount}
+        handleSetTitle = {handleSetTitle}
+        handleSetCode = {handleSetCode}
+        handleSave = {handleSave}
+        handleClickOpen = {handleClickOpen}
+        handleDelete = {handleDelete}
+        handleClose = {handleClose}
+        getGuidelines = {getGuidelines}
+        handleSetCustomCode={handleSetCustomCode}
+        handleCustomSave={handleCustomSave}
+        handleCustomClickOpen={handleCustomClickOpen}
+        customOpen={customOpen}
+        handleCustomClose={handleCustomClose}
+        handleCustomFormChange={handleCustomFormChange}
+        state = {state}
+        />
+        </>
+        }/>
           
-        <FormControl
-            sx={{
-              marginBottom: "10px",
-              marginTop: "20px",
-              minHeight: 10,
-              minWidth: 80,
-              background: '#1d2432'
-            }}
-          >
-        <ThemeProvider theme={themeDark}>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              label="Language"
-              value={defaultLanguage}
-              onChange={handleLanguageChange}
-
-            >
-              <MenuItem value={"C"}>C</MenuItem>
-              <MenuItem value={"Python"}>Python</MenuItem>
-              <MenuItem value={"Java"}>Java</MenuItem>
-            </Select>
-            </ThemeProvider>
-          </FormControl>
-
-          {/* <EditorComponent/> */}
-          <Paper
-                  sx={{  marginTop: "0px", fontSize: "20" }}
-          >
-            <Editor
-                      height="75vh"
-                      defaultLanguage={defaultLanguage.toLowerCase()}
-                      defaultValue={python_default_code}
-                      value={defaultCodeTemplate}
-                      language={defaultLanguage.toLowerCase()}
-                      theme="vs-dark"
-                      onMount={(editor)=>{ editorRef.current = editor;}}
-            />
-          </Paper>
-
-          <Box sx={{ m: "13px", marginRight: "10px", textAlign: "right" }}>
-          <ThemeProvider theme={theme}>
-            <Button variant="contained" onClick={sendCode} color="primary">
-              Submit Code
-            </Button>
-            </ThemeProvider>
-          </Box>
-
-        </div>
-        <div className="right-section">
-              <Paper
-                  elevation={8}
-                  sx={{
-                    textAlign: "left",
-                    m: "3px",
-                    marginTop: "20px",
-                    padding: "20px",
-                    paddingTop: "2px",
-                    boxShadow: "none",
-                    background: "#111827",
-                    color: "#b5c0d0"
-                  }}
-                >
-                  <h2>Guidelines</h2>
-                  <FormGroup sx={{ alignContent: "left" }}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          onChange={handleFormChange}
-                          sx={{color: 'aliceblue'}}
-                          id="Recursion.lapx"
-                        />
-                      }
-                      label="Check if recursion is used"
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          id="var_greater_than_31.lapx"
-                          sx={{color: 'aliceblue'}}
-                          onChange={handleFormChange}
-                        />
-                      }
-                      label="Check if variable name exceeds 31 characters"
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          id="Dead_Code.lapx"
-                          sx={{color: 'aliceblue'}}
-                          onChange={handleFormChange}
-                        />
-                      }
-                      label="Check for dead code"
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          id="Assign_in_loop.lapx"
-                          sx={{color: 'aliceblue'}}
-                          onChange={handleFormChange}
-                        />
-                      }
-                      label="Check for assignment in loop"
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          id="Binary_Search_Iterative.lapx"
-                          sx={{color: 'aliceblue'}}
-                          onChange={handleFormChange}
-                        />
-                      }
-                      label="Check if binary search iterative is implemented"
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          id="Continue.lapx"
-                          sx={{color: 'aliceblue'}}
-                          onChange={handleFormChange}
-                        />
-                      }
-                      label="Check if continue statement is used"
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          id="Unused_Functions.lapx"
-                          sx={{color: 'aliceblue'}}
-                          onChange={handleFormChange}
-                        />
-                      }
-                      label="Check for any unused functions"
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          id="One_var_decl.lapx"
-                          sx={{color: 'aliceblue'}}
-                          onChange={handleFormChange}
-                        />
-                      }
-                      label="One variable declaration per line"
-                    />
-                  </FormGroup>
-                </Paper>
-              <Paper
-                  elevation={8}
-                  sx={{
-                    m: "3px",
-                    marginBottom: "0px",
-                    minHeight: "290px",
-                    padding: "20px",
-                    paddingTop: "2px",
-                    background: "#050c1b",
-                    color: "rgb(255,255,255)",
-                    resize: "both"
-                  }}
-                >
-                  
-                  <h2 style={{ textAlign: "left" }}>Output</h2>
-                  <div style={{ whiteSpace:"pre-line", backgroundColor: "#111827", minHeight: "300px", padding: "10px",
-                fontSize: "18px"}}>
-                  <p >{violation}</p>
-                  </div>
-                </Paper>   
-        </div> 
-        
-      </div>
+        <Route path="/score" element={<LapcaScore />} />
+      </Routes>
+      </BrowserRouter>
     </div>
+
   );
+
 }
 
 export default App;
